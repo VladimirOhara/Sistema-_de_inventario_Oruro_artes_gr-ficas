@@ -1,1481 +1,1524 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- === EDITAR AQUÍ: TÍTULO DE LA PESTAÑA DEL NAVEGADOR === -->
-  <title>Oruro Artes Gráficas S.R.L. | Análisis y Diseño de Sistemas</title>
-
-  <!-- Tailwind CSS CDN (100% compatible con GitHub Pages) -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oruro Artes Gráficas S.R.L. — Análisis y Diseño de Sistemas</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Google Fonts: Inter y Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Montserrat', 'sans-serif'],
-          },
-          colors: {
-            oag: {
-              blue: '#0b5da6',      
-              dark: '#073b6b',      
-              deeper: '#042648',    
-              sky: '#8ed8f8',       
-              red: '#e62e25',       
-              orange: '#f39200',    
-            }
-          }
-        }
-      }
-    }
-  </script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* Indicador de pestaña principal activa */
-    .nav-item-active {
-      color: #0b5da6 !important;
-      font-weight: 700;
-      border-bottom: 3px solid #e62e25;
+    :root {
+      --oag-blue: #0b5da6;
+      --oag-blue-dark: #073b6b;
+      --oag-red: #e62e25;
+      --oag-yellow: #ffd100;
+      --oag-cyan: #a8e1f7;
     }
-    .nav-item-inactive {
-      color: #475569;
-      border-bottom: 3px solid transparent;
-    }
-    .nav-item-inactive:hover {
-      color: #0b5da6;
-    }
-    /* Animación suave entre vistas */
-    .tab-fade {
-      animation: fadeEffect 0.22s ease-out;
-    }
-    @keyframes fadeEffect {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    /* Cuadrícula técnica sutil para el Módulo II (Análisis Estructurado) */
-    .blueprint-grid {
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1e293b;
       background-color: #f8fafc;
-      background-image: 
-        linear-gradient(to right, rgba(11, 93, 166, 0.06) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(11, 93, 166, 0.06) 1px, transparent 1px);
-      background-size: 24px 24px;
+    }
+    .nav-item {
+      position: relative;
+      padding: 1.15rem 0.25rem;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: #475569;
+      transition: color 0.15s ease;
+      cursor: pointer;
+    }
+    .nav-item:hover {
+      color: var(--oag-blue);
+    }
+    .nav-item.active {
+      color: var(--oag-blue);
+      font-weight: 700;
+    }
+    .nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--oag-blue) 0%, var(--oag-red) 60%, var(--oag-yellow) 100%);
+    }
+    .dropdown-panel {
+      display: none;
+    }
+    .dropdown-wrapper:hover .dropdown-panel {
+      display: block;
+    }
+    .subtab-pill {
+      padding: 0.45rem 0.9rem;
+      border-radius: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #475569;
+      background-color: #f1f5f9;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .subtab-pill:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+    .subtab-pill.active {
+      background-color: var(--oag-blue);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(11, 93, 166, 0.25);
+    }
+    .struct-step-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      text-align: left;
+      padding: 0.85rem 1rem;
+      border-radius: 0.65rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #475569;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+    .struct-step-btn:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+    .struct-step-btn.active {
+      background-color: #eff6ff;
+      color: var(--oag-blue);
+      border-color: #bfdbfe;
+      box-shadow: 0 1px 3px rgba(11, 93, 166, 0.08);
+    }
+    .uml-card-btn {
+      text-align: left;
+      padding: 0.9rem 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid #e2e8f0;
+      background-color: #ffffff;
+      transition: all 0.15s ease;
+    }
+    .uml-card-btn:hover {
+      border-color: #93c5fd;
+      background-color: #f8fafc;
+    }
+    .uml-card-btn.active {
+      border-color: var(--oag-blue);
+      background-color: #eff6ff;
+      box-shadow: 0 0 0 2px rgba(11, 93, 166, 0.15);
+    }
+    .toc-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 0.94rem;
+      color: #1e293b;
+      transition: background-color 0.15s ease;
+      cursor: pointer;
+    }
+    .toc-row:last-child {
+      border-bottom: none;
+    }
+    .toc-row:hover {
+      background-color: #f1f5f9;
+      color: var(--oag-blue);
+    }
+    .toc-row-header {
+      background-color: #f8fafc;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .toc-row-sub {
+      padding-left: 2.25rem;
+      color: #334155;
+    }
+    /* Estilo del marco donde van las imagenes de Cap II y III */
+    .diagram-image-frame {
+      background-color: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: 0.85rem;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+      text-align: center;
+    }
+    .diagram-image-frame img {
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+      border-radius: 0.5rem;
+    }
+    /* Chevrones del flujo del proyecto */
+    .chevron-step {
+      clip-path: polygon(0% 0%, 92% 0%, 100% 50%, 92% 100%, 0% 100%, 8% 50%);
+    }
+    .chevron-first {
+      clip-path: polygon(0% 0%, 92% 0%, 100% 50%, 92% 100%, 0% 100%);
     }
   </style>
 </head>
-<body class="bg-slate-50/50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col">
 
-  <!-- =========================================================================
-       1. BARRA DE NAVEGACIÓN SUPERIOR CON EL LOGO DE ORURO ARTES GRÁFICAS S.R.L.
-       ========================================================================= -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="flex items-center justify-between h-20">
-
-        <!-- IZQUIERDA: LOGO DE ORURO ARTES GRÁFICAS S.R.L. + TÍTULO -->
-        <div class="flex items-center space-x-8">
-          <div onclick="showMainTab('portada')" class="flex items-center space-x-3 cursor-pointer group">
-            
-            <!-- === EDITAR AQUÍ: LOGO DE LA EMPRESA (SVG VECTORIAL FIEL A LA IMAGEN O <IMG>) === -->
-            <!-- Si subes el archivo de imagen a tu repositorio, puedes descomentar la siguiente línea: -->
-            <!-- <img src="logo_oruro.png" alt="Oruro Artes Gráficas SRL" class="h-14 w-auto object-contain"> -->
-            <div class="flex flex-col items-center select-none shrink-0">
-              <svg class="w-10 h-14 rounded-sm shadow-sm border border-slate-200" viewBox="0 0 100 142" xmlns="http://www.w3.org/2000/svg">
-                <!-- Fondo rectangular azul cobalto -->
-                <rect x="0" y="0" width="100" height="114" fill="#0b5da6"/>
-                <!-- Luna creciente celeste -->
-                <circle cx="43" cy="64" r="29" fill="#a8dcf3"/>
-                <!-- Sol amarillo intenso -->
-                <circle cx="46" cy="59" r="24" fill="#ffd100"/>
-                <!-- Rayos de sol internos naranjas -->
-                <g fill="#f39200">
-                  <polygon points="46,59 27,44 34,39"/>
-                  <polygon points="46,59 23,60 25,52"/>
-                  <polygon points="46,59 32,79 26,72"/>
-                  <polygon points="46,59 53,82 44,82"/>
-                  <polygon points="46,59 69,72 63,79"/>
-                </g>
-                <!-- Punto central azul del sol -->
-                <circle cx="48" cy="58" r="6.5" fill="#0b5da6"/>
-                <!-- Llama / Gota roja envolvente hacia arriba -->
-                <path d="M 48,92 C 74,86 85,60 72,38 C 61,21 48,14 55,3 C 32,16 26,38 45,53 C 62,66 64,84 48,92 Z" fill="#e62e25"/>
-                <!-- Texto blanco ORURO -->
-                <text x="50" y="109" font-family="Montserrat, sans-serif" font-weight="900" font-size="21" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">ORURO</text>
-                <!-- Franja blanca separadora -->
-                <rect x="0" y="114" width="100" height="4" fill="#ffffff"/>
-                <!-- Franja azul inferior ARTES GRAFICAS -->
-                <rect x="0" y="118" width="100" height="13" fill="#0b5da6"/>
-                <text x="50" y="127.5" font-family="Inter, sans-serif" font-weight="700" font-size="8.7" fill="#ffffff" text-anchor="middle" letter-spacing="0.4">ARTES GRAFICAS</text>
-                <!-- Texto inferior derecho SRL -->
-                <text x="98" y="140" font-family="Montserrat, sans-serif" font-weight="800" font-size="10.5" fill="#0b5da6" text-anchor="end">SRL</text>
-              </svg>
-            </div>
-
-            <div class="leading-tight">
-              <span class="font-display font-extrabold text-base sm:text-lg text-oag-dark group-hover:text-oag-blue transition-colors block">
-                Oruro Artes Gráficas
-              </span>
-              <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
-                Sistema de Inventarios · SRL
-              </span>
-            </div>
-          </div>
-
-          <nav class="hidden md:flex items-center space-x-6 h-20">
-            <!-- Pestaña: Portada -->
-            <button id="nav-portada" onclick="showMainTab('portada')" class="nav-item-active h-full px-1 text-sm transition-colors flex items-center">
-              Portada
-            </button>
-
-            <!-- Pestaña con Dropdown: I. Generalidades y marco teórico (9 subpestañas independientes) -->
-            <div class="relative group h-full flex items-center">
-              <button id="nav-parte1" onclick="showMainTab('parte1')" class="nav-item-inactive h-full px-1 text-sm transition-colors flex items-center space-x-1">
-                <span>I. Generalidades y marco teórico</span>
-                <svg class="w-3.5 h-3.5 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                </svg>
-              </button>
-
-              <!-- Menú desplegable que abre cada subpestaña de manera independiente -->
-              <div class="absolute left-0 top-20 w-80 bg-white border border-slate-200 rounded-b-xl shadow-xl py-2 hidden group-hover:block z-50">
-                <div class="px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
-                  Subpestañas independientes (Parte I)
-                </div>
-                <button onclick="openPart1Sub(1)" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-blue-50 hover:text-oag-blue font-medium">1. Tabla de contenido</button>
-                <button onclick="openPart1Sub(2)" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-blue-50 hover:text-oag-blue font-medium">2. Introducción</button>
-                <button onclick="openPart1Sub(3)" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-blue-50 hover:text-oag-blue font-medium">3. Antecedentes de la organización</button>
-                <button onclick="openPart1Sub(4)" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-blue-50 hover:text-oag-blue font-medium">4. Planteamiento del problema</button>
-                <button onclick="openPart1Sub(5)" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-blue-50 hover:text-oag-blue font-medium">5. Árbol de problemas</button>
-                <button onclick="openPart1Sub(6)" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-blue-50 hover:text-oag-blue font-medium">6. Formulación del problema</button>
-                <button onclick="openPart1Sub(7)" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-blue-50 hover:text-oag-blue font-medium">7. Propósito del estudio (Objetivos)</button>
-                <button onclick="openPart1Sub(8)" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-blue-50 hover:text-oag-blue font-medium">8. Método, medios, instrumentos y alcances</button>
-                <button onclick="openPart1Sub(9)" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-blue-50 hover:text-oag-blue font-medium">9. Planificación de actividades</button>
-              </div>
-            </div>
-
-            <!-- Pestaña: II. Análisis y diseño estructurado -->
-            <button id="nav-parte2" onclick="showMainTab('parte2')" class="nav-item-inactive h-full px-1 text-sm text-left leading-tight transition-colors flex items-center max-w-[160px]">
-              II. Análisis y diseño estructurado
-            </button>
-
-            <!-- Pestaña: III. Análisis y diseño orientado a objetos -->
-            <button id="nav-parte3" onclick="showMainTab('parte3')" class="nav-item-inactive h-full px-1 text-sm text-left leading-tight transition-colors flex items-center max-w-[190px]">
-              III. Análisis y diseño orientado a objetos
-            </button>
-          </nav>
-        </div>
-
-        <!-- DERECHA: Identificador UMSA -->
-        <div class="hidden lg:flex items-center space-x-3 text-right">
-          <span class="px-2.5 py-1 rounded-md bg-oag-blue/10 text-oag-blue font-bold text-xs">
-            UMSA · INF
-          </span>
-          <div class="text-xs text-slate-500 leading-tight border-l border-slate-200 pl-3 text-left">
-            Análisis y Diseño<br>de Sistemas · "A"
-          </div>
-        </div>
-
-        <!-- Botón Menú Móvil -->
-        <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+  <!-- ===================================================================== -->
+  <!-- BARRA DE NAVEGACIÓN SUPERIOR                                          -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between">
+      
+      <div class="flex items-center space-x-8">
+        <!-- Marca con Logo de Oruro Artes Gráficas SRL -->
+        <a href="#" onclick="switchMainTab('portada'); return false;" class="flex items-center space-x-3 py-2 group">
+          
+          <!-- // ACA VA LA IMAGEN DEL LOGO (opcional si quieres usar logo.png en vez del SVG) -->
+          <!-- <img src="logo.png" alt="Logo Oruro Artes Gráficas" class="h-11 w-auto rounded" /> -->
+          <svg class="w-9 h-12 rounded shadow-sm flex-shrink-0 border border-slate-200" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="120" height="122" fill="#0b5da6"/>
+            <circle cx="48" cy="70" r="36" fill="#a8e1f7"/>
+            <circle cx="56" cy="67" r="28" fill="#ffd100"/>
+            <g stroke="#f59e0b" stroke-width="5" stroke-linecap="round">
+              <line x1="56" y1="67" x2="36" y2="52"/>
+              <line x1="56" y1="67" x2="34" y2="70"/>
+              <line x1="56" y1="67" x2="42" y2="88"/>
+              <line x1="56" y1="67" x2="64" y2="90"/>
+              <line x1="56" y1="67" x2="75" y2="78"/>
+            </g>
+            <circle cx="62" cy="65" r="7" fill="#0b5da6"/>
+            <path d="M 62 103 C 102 92, 108 45, 74 20 C 60 8, 66 4, 72 2 C 44 12, 36 42, 62 60 C 82 74, 80 95, 62 103 Z" fill="#e62e25"/>
+            <text x="60" y="117" text-anchor="middle" fill="#ffffff" font-family="Inter, sans-serif" font-weight="900" font-size="22" letter-spacing="1">ORURO</text>
+            <rect x="0" y="122" width="120" height="8" fill="#ffffff"/>
+            <rect x="0" y="130" width="120" height="16" fill="#0b5da6"/>
+            <text x="60" y="142" text-anchor="middle" fill="#ffffff" font-family="Inter, sans-serif" font-weight="700" font-size="10.5" letter-spacing="0.6">ARTES GRAFICAS</text>
+            <rect x="0" y="146" width="120" height="14" fill="#ffffff"/>
+            <text x="115" y="158" text-anchor="end" fill="#0b5da6" font-family="Inter, sans-serif" font-weight="800" font-size="12" letter-spacing="1">S.R.L.</text>
           </svg>
-        </button>
 
+          <div class="leading-tight">
+            <span class="block text-base font-extrabold tracking-tight text-[#0b5da6]">Oruro Artes Gráficas</span>
+            <span class="block text-[11px] font-bold text-[#e62e25] tracking-widest uppercase">S.R.L. · Inventarios</span>
+          </div>
+        </a>
+
+        <!-- Pestañas Principales -->
+        <nav class="hidden md:flex items-center space-x-7">
+          <button id="nav-portada" onclick="switchMainTab('portada')" class="nav-item active">
+            Portada
+          </button>
+
+          <!-- Dropdown I. Generalidades -->
+          <div class="relative dropdown-wrapper">
+            <button id="nav-parte1" onclick="switchMainTab('parte1')" class="nav-item flex items-center gap-1">
+              <span>I. Generalidades y marco teórico</span>
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="dropdown-panel absolute left-0 top-full w-80 bg-white border border-slate-200 rounded-lg shadow-xl py-2 z-50">
+              <div class="px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
+                Subpestañas Independientes (Cap. I)
+              </div>
+              <a href="#" onclick="openCap1Subtab(1); return false;" class="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-[#0b5da6]">1. Tabla de contenido</a>
+              <a href="#" onclick="openCap1Subtab(2); return false;" class="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-[#0b5da6]">2. Introducción (1.1)</a>
+              <a href="#" onclick="openCap1Subtab(3); return false;" class="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-[#0b5da6]">3. Antecedentes (1.2)</a>
+              <a href="#" onclick="openCap1Subtab(4); return false;" class="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-[#0b5da6]">4. Planteamiento del problema (1.3)</a>
+              <a href="#" onclick="openCap1Subtab(5); return false;" class="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-[#0b5da6]">5. Árbol de problemas (1.4)</a>
+              <a href="#" onclick="openCap1Subtab(6); return false;" class="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-[#0b5da6]">6. Formulación del problema (1.5)</a>
+              <a href="#" onclick="openCap1Subtab(7); return false;" class="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-[#0b5da6]">7. Propósito y objetivos (1.6)</a>
+              <a href="#" onclick="openCap1Subtab(8); return false;" class="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-[#0b5da6]">8. Método, medios e instrumentos (1.7)</a>
+              <a href="#" onclick="openCap1Subtab(9); return false;" class="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-[#0b5da6]">9. Planificación de actividades (1.8)</a>
+            </div>
+          </div>
+
+          <button id="nav-parte2" onclick="switchMainTab('parte2')" class="nav-item text-left leading-tight">
+            II. Análisis y diseño<br><span class="text-xs font-normal">estructurado</span>
+          </button>
+
+          <button id="nav-parte3" onclick="switchMainTab('parte3')" class="nav-item text-left leading-tight">
+            III. Análisis y diseño orientado a<br><span class="text-xs font-normal">objetos (UML)</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="hidden lg:flex items-center space-x-5 text-xs">
+        <span class="px-2.5 py-1 rounded-full bg-blue-50 text-[#0b5da6] font-semibold border border-blue-200">UMSA · Informática</span>
+        <span class="text-slate-500 leading-tight text-right">Análisis y Diseño de<br>Sistemas · Paralelo A</span>
       </div>
     </div>
 
-    <!-- Menú Desplegable Móvil -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200 px-4 py-3 space-y-2">
-      <button onclick="showMainTab('portada'); toggleMobileMenu();" class="block w-full text-left py-2 text-sm font-semibold text-oag-blue">Portada</button>
-      <button onclick="openPart1Sub(1); toggleMobileMenu();" class="block w-full text-left py-2 text-sm font-medium text-slate-700">I. Generalidades y marco teórico</button>
-      <button onclick="showMainTab('parte2'); toggleMobileMenu();" class="block w-full text-left py-2 text-sm font-medium text-slate-700">II. Análisis y diseño estructurado</button>
-      <button onclick="showMainTab('parte3'); toggleMobileMenu();" class="block w-full text-left py-2 text-sm font-medium text-slate-700">III. Análisis y diseño orientado a objetos</button>
+    <!-- Barra móvil -->
+    <div class="flex md:hidden border-t border-slate-200 bg-slate-50 overflow-x-auto px-2">
+      <button onclick="switchMainTab('portada')" class="px-3 py-2 text-xs font-bold text-slate-700 whitespace-nowrap">Portada</button>
+      <button onclick="switchMainTab('parte1')" class="px-3 py-2 text-xs font-bold text-slate-700 whitespace-nowrap">I. Generalidades</button>
+      <button onclick="switchMainTab('parte2')" class="px-3 py-2 text-xs font-bold text-slate-700 whitespace-nowrap">II. Estructurado</button>
+      <button onclick="switchMainTab('parte3')" class="px-3 py-2 text-xs font-bold text-slate-700 whitespace-nowrap">III. Orientado a Objetos</button>
     </div>
   </header>
 
-
-  <!-- =========================================================================
-       CONTENEDOR PRINCIPAL DE VISTAS
-       ========================================================================= -->
-  <main class="flex-grow flex flex-col">
-
-    <!-- =======================================================================
-         VISTA 1: PORTADA ORIGINAL (COMBINADA CON EL LOGO DE ORURO ARTES GRÁFICAS)
-         ======================================================================= -->
-    <section id="tab-portada" class="tab-fade bg-gradient-to-br from-oag-deeper via-oag-dark to-oag-blue text-white flex-grow flex flex-col justify-between py-12 sm:py-16 relative overflow-hidden">
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 0: PORTADA                                                    -->
+  <!-- ===================================================================== -->
+  <section id="tab-portada" class="flex-1 bg-gradient-to-br from-[#073b6b] via-[#0b5da6] to-[#094780] text-white flex flex-col justify-between">
+    <div class="max-w-6xl mx-auto w-full px-6 sm:px-12 py-12 md:py-16">
       
-      <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-oag-yellow/10 blur-3xl pointer-events-none"></div>
-      <div class="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-oag-red/10 blur-3xl pointer-events-none"></div>
-
-      <div class="max-w-6xl mx-auto px-6 w-full relative z-10 space-y-12">
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-
-          <!-- Columna Izquierda (7 cols): Presentación e Identidad -->
-          <div class="lg:col-span-7 space-y-5">
-            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 backdrop-blur-sm">
-              <span class="w-2 h-2 rounded-full bg-oag-yellow"></span>
-              <span class="text-oag-yellow font-bold text-xs uppercase tracking-widest">
-                CASO DE ESTUDIO · INDUSTRIA GRÁFICA BOLIVIANA
-              </span>
-            </div>
-
-            <!-- === EDITAR AQUÍ: TÍTULO PRINCIPAL DE LA PORTADA === -->
-            <h1 class="font-display font-black text-4xl sm:text-6xl leading-[1.06] tracking-tight text-white">
-              Sistema Informático de Control de Inventarios
-            </h1>
-
-            <!-- Franja tricolor inspirada en el logo (Rojo, Amarillo y Celeste) -->
-            <div class="flex items-center space-x-2">
-              <div class="w-14 h-1.5 bg-oag-red rounded-full"></div>
-              <div class="w-8 h-1.5 bg-oag-yellow rounded-full"></div>
-              <div class="w-4 h-1.5 bg-oag-sky rounded-full"></div>
-            </div>
-
-            <p class="text-slate-100 text-base sm:text-lg leading-relaxed max-w-2xl">
-              Propuesta de análisis y diseño para la gestión centralizada de materias primas, insumos, productos terminados (Almacenes 1 y 2), alertas de reposición y cotizaciones de proveedores en <strong>Oruro Artes Gráficas S.R.L.</strong>
-            </p>
-
-          
-          <!-- <div class="pt-2">
-              <p class="text-xs font-semibold uppercase tracking-wider text-oag-sky mb-2.5">
-                Explorar apartados del Capítulo I (Vistas independientes):
-              </p>
-              <div class="flex flex-wrap gap-2">
-                <button onclick="openPart1Sub(1)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-oag-yellow hover:text-slate-900 text-xs font-medium transition-all border border-white/15">
-                  1. Índice General
-                </button>
-                <button onclick="openPart1Sub(2)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-oag-yellow hover:text-slate-900 text-xs font-medium transition-all border border-white/15">
-                  2. Introducción
-                </button>
-                <button onclick="openPart1Sub(3)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-oag-yellow hover:text-slate-900 text-xs font-medium transition-all border border-white/15">
-                  3. Antecedentes
-                </button>
-                <button onclick="openPart1Sub(4)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-oag-yellow hover:text-slate-900 text-xs font-medium transition-all border border-white/15">
-                  4. Problema
-                </button>
-                <button onclick="openPart1Sub(5)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-oag-yellow hover:text-slate-900 text-xs font-medium transition-all border border-white/15">
-                  5. Árbol de Problemas
-                </button>
-                <button onclick="openPart1Sub(7)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-oag-yellow hover:text-slate-900 text-xs font-medium transition-all border border-white/15">
-                  7. Objetivos
-                </button>
-                <button onclick="openPart1Sub(9)" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-oag-yellow hover:text-slate-900 text-xs font-medium transition-all border border-white/15">
-                  9. Cronograma Gantt
-                </button>
-              </div>
-            </div>
-          -->
-          </div>
-          <div class="lg:col-span-5">
-            <div class="bg-white text-slate-800 rounded-2xl p-6 shadow-2xl border-t-4 border-oag-yellow">
-              <div class="flex items-center space-x-4 pb-5 mb-5 border-b border-slate-200">
-      
-                <svg class="w-14 h-20 rounded shadow-sm border border-slate-200 shrink-0" viewBox="0 0 100 142" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="0" y="0" width="100" height="114" fill="#0b5da6"/>
-                  <circle cx="43" cy="64" r="29" fill="#a8dcf3"/>
-                  <circle cx="46" cy="59" r="24" fill="#ffd100"/>
-                  <g fill="#f39200">
-                    <polygon points="46,59 27,44 34,39"/>
-                    <polygon points="46,59 23,60 25,52"/>
-                    <polygon points="46,59 32,79 26,72"/>
-                    <polygon points="46,59 53,82 44,82"/>
-                    <polygon points="46,59 69,72 63,79"/>
-                  </g>
-                  <circle cx="48" cy="58" r="6.5" fill="#0b5da6"/>
-                  <path d="M 48,92 C 74,86 85,60 72,38 C 61,21 48,14 55,3 C 32,16 26,38 45,53 C 62,66 64,84 48,92 Z" fill="#e62e25"/>
-                  <text x="50" y="109" font-family="Montserrat, sans-serif" font-weight="900" font-size="21" fill="#ffffff" text-anchor="middle">ORURO</text>
-                  <rect x="0" y="114" width="100" height="4" fill="#ffffff"/>
-                  <rect x="0" y="118" width="100" height="13" fill="#0b5da6"/>
-                  <text x="50" y="127.5" font-family="Inter, sans-serif" font-weight="700" font-size="8.7" fill="#ffffff" text-anchor="middle">ARTES GRAFICAS</text>
-                  <text x="98" y="140" font-family="Montserrat, sans-serif" font-weight="800" font-size="10.5" fill="#0b5da6" text-anchor="end">SRL</text>
-                </svg>
-
-                <div>
-                  <span class="text-[11px] font-bold uppercase tracking-wider text-oag-red block">
-                    UNIVERSIDAD MAYOR DE SAN ANDRÉS
-                  </span>
-                  <h2 class="font-display font-extrabold text-lg text-slate-900 leading-snug">
-                    Carrera de Informática
-                  </h2>
-                  <p class="text-xs text-slate-500 mt-0.5">
-                    Materia: "Análisis y diseño de sistemas" · Paralelo "A"
-                  </p>
-                </div>
-              </div>
-
-              <!-- Datos del Docente e Integrantes -->
-              <div class="space-y-3 text-sm">
-                <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
-                  <span class="text-xs font-semibold uppercase text-slate-400">Docente:</span>
-                  <span class="font-semibold text-slate-800">Lic. Miguel Cotaña Mier</span>
-                </div>
-
-                <!-- === EDITAR AQUÍ: NOMBRES DE LOS INTEGRANTES === -->
-                <div class="py-1.5 border-b border-slate-100">
-                  <span class="text-xs font-semibold uppercase text-slate-400 block mb-1.5">Integrantes del Equipo:</span>
-                  <ul class="space-y-1 text-slate-800 font-medium pl-2 border-l-2 border-oag-blue">
-                    <li>• Chambi Barreto Carlos Ernesto</li>
-                    <li>• Mamani Leyva Abraham Severo</li>
-                    <li>• Mariscal Herrera Heidy Berenice</li>
-                    <li>• Martinez Contreras Mijael Wilmer  </li>
-                    <li>• Narvaez Cruz Ariel Alex </li>          
-                    <li>• Ohara Ticona Vladimir Kim</li>
-                  </ul>
-                </div>
-
-                <div class="flex justify-between items-center pt-1 text-xs text-slate-500">
-                  <span>Domicilio Empresa: Av. Núñez del Prado N.º 971</span>
-                  <span class="font-bold text-oag-blue">La Paz · 2026</span>
-                </div>
-              </div>
-
-            </div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        
+        <!-- Columna Izquierda: Identidad y Resumen Ejecutivo -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold tracking-wider uppercase text-[#ffd100]">
+            <span class="w-2 h-2 rounded-full bg-[#e62e25]"></span>
+            Proyecto Académico · Gestión 2026
           </div>
 
+          <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-[1.06]">
+            Oruro Artes Gráficas <span class="text-[#ffd100]">S.R.L.</span>
+          </h1>
+
+          <div class="flex items-center gap-2">
+            <span class="w-14 h-1.5 bg-[#ffd100] rounded-full"></span>
+            <span class="w-6 h-1.5 bg-[#e62e25] rounded-full"></span>
+            <span class="w-3 h-1.5 bg-[#a8e1f7] rounded-full"></span>
+          </div>
+
+          <p class="text-lg sm:text-xl text-blue-100 font-normal leading-relaxed">
+            Análisis y Diseño de un Sistema Informático de Inventarios orientado al registro, control y consulta de existencias (Almacén 1: Materias Primas e Insumos y Almacén 2: Productos Terminados), con soporte a cotizaciones y proveedores habituales.
+          </p>
+
+          <!-- Metadatos institucionales e integrantes -->
+          <div class="pt-2 space-y-2 text-sm text-blue-100/95">
+            <div class="flex items-center gap-2.5">
+              <span class="font-semibold text-white"> Universidad Mayor de San Andrés · Carrera de Informática</span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <span> Materia: <strong class="text-white">Análisis y Diseño de Sistemas (Paralelo "A")</strong></span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <span> Docente: <em class="text-white">Lic. Miguel Cotaña Mier</em></span>
+            </div>
+            <div class="pt-2">
+              <p class="text-xs font-bold uppercase tracking-wider text-[#ffd100] mb-1.5"> Integrantes del Equipo:</p>
+              <!-- === EDITAR AQUÍ: LISTA DE INTEGRANTES === -->
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 pl-2 italic text-white/95 text-sm">
+                <li>- Chambi Barreto Carlos Ernesto</li>
+                <li>- Mamani Leyva Abraham Severo</li>
+                <li>- Mariscal Herrera Heidy Berenice</li>
+                <li>- Martinez Contreras Mijael Wilmer</li>
+                <li>- Narvaez Cruz Ariel Alex</li>
+                <li>- Ohara Ticona Vladimir Kim</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
-        <!-- BLOQUE INFERIOR DE PORTADA: TARJETAS INTERACTIVAS DE LOS 3 MÓDULOS DEL PROYECTO -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4 border-t border-white/15">
-          
-          <!-- Tarjeta Módulo I -->
-          <div onclick="openPart1Sub(1)" class="group cursor-pointer rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 p-5 transition-all flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-bold uppercase tracking-wider text-oag-yellow">MÓDULO I · 9 SUBPESTAÑAS</span>
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-400/20 text-emerald-300">Completado</span>
+        <!-- Columna Derecha: Tarjeta con el Logo Oficial -->
+        <div class="lg:col-span-5">
+          <div class="bg-white text-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl border-t-4 border-[#e62e25]">
+            <div class="flex items-center gap-5 pb-6 border-b border-slate-100">
+              
+              <!-- // ACA VA LA IMAGEN DEL LOGO (si deseas reemplazar el SVG por logo.png) -->
+              <!-- <img src="logo.png" alt="Logo Oruro Artes Gráficas SRL" class="w-20 h-auto rounded shadow" /> -->
+              <svg class="w-20 h-28 rounded-lg shadow-md flex-shrink-0 border border-slate-200" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="0" width="120" height="122" fill="#0b5da6"/>
+                <circle cx="48" cy="70" r="36" fill="#a8e1f7"/>
+                <circle cx="56" cy="67" r="28" fill="#ffd100"/>
+                <g stroke="#f59e0b" stroke-width="5" stroke-linecap="round">
+                  <line x1="56" y1="67" x2="36" y2="52"/>
+                  <line x1="56" y1="67" x2="34" y2="70"/>
+                  <line x1="56" y1="67" x2="42" y2="88"/>
+                  <line x1="56" y1="67" x2="64" y2="90"/>
+                  <line x1="56" y1="67" x2="75" y2="78"/>
+                </g>
+                <circle cx="62" cy="65" r="7" fill="#0b5da6"/>
+                <path d="M 62 103 C 102 92, 108 45, 74 20 C 60 8, 66 4, 72 2 C 44 12, 36 42, 62 60 C 82 74, 80 95, 62 103 Z" fill="#e62e25"/>
+                <text x="60" y="117" text-anchor="middle" fill="#ffffff" font-family="Inter, sans-serif" font-weight="900" font-size="22" letter-spacing="1">ORURO</text>
+                <rect x="0" y="122" width="120" height="8" fill="#ffffff"/>
+                <rect x="0" y="130" width="120" height="16" fill="#0b5da6"/>
+                <text x="60" y="142" text-anchor="middle" fill="#ffffff" font-family="Inter, sans-serif" font-weight="700" font-size="10.5" letter-spacing="0.6">ARTES GRAFICAS</text>
+                <rect x="0" y="146" width="120" height="14" fill="#ffffff"/>
+                <text x="115" y="158" text-anchor="end" fill="#0b5da6" font-family="Inter, sans-serif" font-weight="800" font-size="12" letter-spacing="1">S.R.L.</text>
+              </svg>
+
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-widest text-[#e62e25]">Organización Caso de Estudio</span>
+                <h2 class="text-xl font-black text-slate-900 mt-0.5">Oruro Artes Gráficas S.R.L.</h2>
+                <p class="text-xs text-slate-500 mt-1">Av. Núñez del Prado N.º 971, Zona Ciudad Satélite · Fundada en 2005</p>
               </div>
-              <h3 class="font-display font-bold text-lg text-white group-hover:text-oag-yellow transition-colors">
-                I. Generalidades y Marco Teórico
-              </h3>
-              <p class="text-xs text-slate-200 mt-1 leading-relaxed">
-                Antecedentes de Oruro Artes Gráficas S.R.L., maquinaria Heidelberg, almacenes, árbol de problemas, objetivos y planificación.
-              </p>
             </div>
-            <div class="mt-4 text-xs font-semibold text-oag-sky flex items-center space-x-1">
-              <span>Abrir capítulos independientes</span>
-              <span>→</span>
+
+            <div class="grid grid-cols-2 gap-3 my-5 text-xs">
+              <div class="p-3 rounded-lg bg-slate-50 border border-slate-200/80">
+                <span class="text-slate-400 font-semibold block">Almacenamiento</span>
+                <strong class="text-slate-800 text-sm">2 Almacenes (MP y PT)</strong>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 border border-slate-200/80">
+                <span class="text-slate-400 font-semibold block">Prensa Offset</span>
+                <strong class="text-slate-800 text-sm">Heidelberg SM 52 y 74</strong>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 border border-slate-200/80">
+                <span class="text-slate-400 font-semibold block">Preprensa y Red</span>
+                <strong class="text-slate-800 text-sm">CTP + 7 Equipos Mac</strong>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 border border-slate-200/80">
+                <span class="text-slate-400 font-semibold block">Enfoque Metodológico</span>
+                <strong class="text-slate-800 text-sm">Estructurado + UML</strong>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Exploración directa de capítulos:</p>
+              <button onclick="openCap1Subtab(2)" class="w-full flex items-center justify-between px-4 py-2.5 rounded-lg bg-[#0b5da6] hover:bg-[#094780] text-white font-semibold text-xs transition">
+                <span>Ir a Capítulo I: Generalidades y Marco Teórico</span>
+                <span>→</span>
+              </button>
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="switchMainTab('parte2')" class="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition text-center">
+                  Cap. II: Estructurado
+                </button>
+                <button onclick="switchMainTab('parte3')" class="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition text-center">
+                  Cap. III: Objetos (UML)
+                </button>
+              </div>
             </div>
           </div>
-
-          <!-- Tarjeta Módulo II -->
-          <div onclick="showMainTab('parte2')" class="group cursor-pointer rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 p-5 transition-all flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-bold uppercase tracking-wider text-oag-sky">MÓDULO II · 6 PROCESOS</span>
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/15 text-slate-200">Estructura lista</span>
-              </div>
-              <h3 class="font-display font-bold text-lg text-white group-hover:text-oag-yellow transition-colors">
-                II. Análisis y Diseño Estructurado
-              </h3>
-              <p class="text-xs text-slate-200 mt-1 leading-relaxed">
-                Lienzo técnico con barra lateral para Requerimientos, Diagrama de Contexto, DFD por niveles, Diccionario y DER.
-              </p>
-            </div>
-            <div class="mt-4 text-xs font-semibold text-oag-sky flex items-center space-x-1">
-              <span>Abrir explorador estructurado</span>
-              <span>→</span>
-            </div>
-          </div>
-
-          <!-- Tarjeta Módulo III -->
-          <div onclick="showMainTab('parte3')" class="group cursor-pointer rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 p-5 transition-all flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-bold uppercase tracking-wider text-red-300">MÓDULO III · ARTEFACTOS UML</span>
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/15 text-slate-200">Estructura lista</span>
-              </div>
-              <h3 class="font-display font-bold text-lg text-white group-hover:text-oag-yellow transition-colors">
-                III. Diseño Orientado a Objetos
-              </h3>
-              <p class="text-xs text-slate-200 mt-1 leading-relaxed">
-                Selector de tarjetas para Casos de Uso, Diagrama de Clases, Secuencia, Actividades, Estados y Despliegue.
-              </p>
-            </div>
-            <div class="mt-4 text-xs font-semibold text-oag-sky flex items-center space-x-1">
-              <span>Abrir repositorio de modelos UML</span>
-              <span>→</span>
-            </div>
-          </div>
-
         </div>
 
       </div>
-    </section>
+    </div>
 
-
-    <!-- =======================================================================
-         VISTA 2: I. GENERALIDADES Y MARCO TEÓRICO (9 SUBPESTAÑAS INDEPENDIENTES)
-         ======================================================================= -->
-    <section id="tab-parte1" class="tab-fade hidden py-10 sm:py-12 flex-grow">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6">
-
-        <!-- -------------------------------------------------------------------
-             SUBPESTAÑA INDEPENDIENTE 1: TABLA DE CONTENIDO
-             ------------------------------------------------------------------- -->
-        <div id="p1-sub-1" class="tab-fade bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
-          <span class="text-oag-blue font-bold text-xs uppercase tracking-wider block mb-1">
-            PARTE I · APARTADO 1
-          </span>
-          <h2 class="font-display font-black text-3xl text-slate-900 mb-2">
-            Tabla de contenido
-          </h2>
-          <p class="text-sm text-slate-500 mb-6">
-            Haz clic en cualquier apartado para abrir su vista independiente:
-          </p>
-
-          <div class="border border-slate-200 rounded-xl overflow-hidden divide-y divide-slate-200 text-sm sm:text-[15px]">
-            <button onclick="showMainTab('portada')" class="w-full text-left px-4 py-3.5 font-bold text-slate-900 bg-white hover:bg-blue-50/60 transition-colors flex items-center justify-between">
-              <span>Portada</span>
-              <span class="text-xs font-normal text-slate-400">Inicio</span>
-            </button>
-
-            <div class="px-4 py-3 font-bold text-oag-dark bg-slate-50">
-              I. Generalidades y marco teórico
-            </div>
-
-            <button onclick="openPart1Sub(1)" class="w-full text-left pl-8 pr-4 py-3 text-oag-blue font-semibold bg-blue-50/40 hover:bg-blue-50 transition-colors flex justify-between">
-              <span>1. Tabla de contenido</span>
-              <span class="text-xs">Vista actual</span>
-            </button>
-            <button onclick="openPart1Sub(2)" class="w-full text-left pl-8 pr-4 py-3 text-slate-700 hover:bg-slate-50 hover:text-oag-blue transition-colors flex justify-between">
-              <span>2. Introducción</span>
-              <span class="text-xs text-slate-400">Abrir pestaña →</span>
-            </button>
-            <button onclick="openPart1Sub(3)" class="w-full text-left pl-8 pr-4 py-3 text-slate-700 hover:bg-slate-50 hover:text-oag-blue transition-colors flex justify-between">
-              <span>3. Antecedentes de la organización</span>
-              <span class="text-xs text-slate-400">Abrir pestaña →</span>
-            </button>
-            <button onclick="openPart1Sub(4)" class="w-full text-left pl-8 pr-4 py-3 text-slate-700 hover:bg-slate-50 hover:text-oag-blue transition-colors flex justify-between">
-              <span>4. Planteamiento del problema</span>
-              <span class="text-xs text-slate-400">Abrir pestaña →</span>
-            </button>
-            <button onclick="openPart1Sub(5)" class="w-full text-left pl-8 pr-4 py-3 text-slate-700 hover:bg-slate-50 hover:text-oag-blue transition-colors flex justify-between">
-              <span>5. Árbol de problemas</span>
-              <span class="text-xs text-slate-400">Abrir pestaña →</span>
-            </button>
-            <button onclick="openPart1Sub(6)" class="w-full text-left pl-8 pr-4 py-3 text-slate-700 hover:bg-slate-50 hover:text-oag-blue transition-colors flex justify-between">
-              <span>6. Formulación del problema</span>
-              <span class="text-xs text-slate-400">Abrir pestaña →</span>
-            </button>
-            <button onclick="openPart1Sub(7)" class="w-full text-left pl-8 pr-4 py-3 text-slate-700 hover:bg-slate-50 hover:text-oag-blue transition-colors flex justify-between">
-              <span>7. Propósito del estudio (objetivo general y específicos)</span>
-              <span class="text-xs text-slate-400">Abrir pestaña →</span>
-            </button>
-            <button onclick="openPart1Sub(8)" class="w-full text-left pl-8 pr-4 py-3 text-slate-700 hover:bg-slate-50 hover:text-oag-blue transition-colors flex justify-between">
-              <span>8. Método, medios e instrumentos de investigación, justificación y alcances</span>
-              <span class="text-xs text-slate-400">Abrir pestaña →</span>
-            </button>
-            <button onclick="openPart1Sub(9)" class="w-full text-left pl-8 pr-4 py-3 text-slate-700 hover:bg-slate-50 hover:text-oag-blue transition-colors flex justify-between">
-              <span>9. Planificación de actividades</span>
-              <span class="text-xs text-slate-400">Abrir pestaña →</span>
-            </button>
-
-            <button onclick="showMainTab('parte2')" class="w-full text-left px-4 py-3.5 font-bold text-slate-900 bg-slate-50 hover:bg-slate-100 transition-colors flex justify-between">
-              <span>II. Análisis y diseño estructurado</span>
-              <span class="text-xs font-normal text-oag-blue">Módulo II →</span>
-            </button>
-
-            <button onclick="showMainTab('parte3')" class="w-full text-left px-4 py-3.5 font-bold text-slate-900 bg-slate-50 hover:bg-slate-100 transition-colors flex justify-between">
-              <span>III. Análisis y diseño orientado a objetos</span>
-              <span class="text-xs font-normal text-oag-blue">Módulo III →</span>
-            </button>
-          </div>
-        </div>
-
-
-        <!-- -------------------------------------------------------------------
-             SUBPESTAÑA INDEPENDIENTE 2: INTRODUCCIÓN
-             ------------------------------------------------------------------- -->
-        <div id="p1-sub-2" class="tab-fade hidden bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
-          <span class="text-oag-blue font-bold text-xs uppercase tracking-wider block mb-1">
-            I. GENERALIDADES Y MARCO TEÓRICO · SECCIÓN 1.1
-          </span>
-          <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-6">
-            2. Introducción
-          </h2>
-          <div class="space-y-4 text-slate-700 leading-relaxed text-[15px]">
-            <p>
-              El sector de la industria gráfica y de las imprentas artesanales y semiindustriales enfrenta el desafío de administrar adecuadamente las materias primas e insumos necesarios para sus actividades, considerando la variedad de materiales utilizados, sus diferentes características y la necesidad de mantener un equilibrio entre calidad y costos. En este contexto, el control de inventarios constituye un aspecto importante para conocer las existencias disponibles, identificar las necesidades de reposición y disponer de información organizada para apoyar la toma de decisiones.
-            </p>
-            <p>
-              <strong>Oruro Artes Gráficas S.R.L.</strong> es una empresa dedicada al diseño gráfico y a los servicios de impresión, que inició sus actividades en 2005 y cuenta con más de diez años de experiencia trabajando con clientes del sector privado y público, entre ellos el <strong>Ministerio de Educación</strong>. Para desarrollar sus actividades, requiere materias primas e insumos como papel, tintas, cartones y otros materiales relacionados con los trabajos de impresión. La disponibilidad de estos recursos es importante para organizar las adquisiciones y atender los requerimientos de sus clientes.
-            </p>
-            <p>
-              La empresa tiene como misión proporcionar soluciones de impresión de alta calidad que superen las expectativas de sus clientes, utilizando tecnología de vanguardia y un equipo comprometido con la excelencia. Asimismo, su visión es ser líder en la industria de impresión a nivel nacional e internacional, con reconocimiento por su innovación, calidad y compromiso con la sostenibilidad ambiental.
-            </p>
-            <p>
-              Actualmente, la empresa no cuenta con un sistema informático de inventarios que permita gestionar de manera centralizada la información sobre las materias primas e insumos disponibles. Esta situación plantea la necesidad de contar con un mecanismo organizado para registrar y consultar las existencias, controlar las entradas y salidas de materiales, conocer las cantidades disponibles e identificar posibles faltantes o excedentes. Asimismo, resulta importante disponer de información que facilite la determinación de las necesidades de reposición y la planificación de futuras adquisiciones.
-            </p>
-            <p>
-              Otro aspecto relacionado con la gestión de los materiales es la selección de proveedores. Parte de las adquisiciones se realiza considerando las alternativas disponibles en el mercado, buscando un equilibrio entre precio y calidad. Por ello, el sistema propuesto también contempla, dentro de su alcance, el registro y la comparación de cotizaciones, así como la organización de información que permita evaluar a los proveedores habituales. Estas funciones complementarán el control de inventarios y servirán como apoyo para la toma de decisiones de compra, sin sustituir el objetivo principal del proyecto.
-            </p>
-            <p>
-              Ante esta situación, el presente proyecto tiene como objetivo principal realizar el análisis y diseño de un sistema informático de inventarios para <strong>Oruro Artes Gráficas S.R.L.</strong>, orientado al registro, control y consulta de las existencias y de sus movimientos. Para su desarrollo se aplicarán los enfoques de <strong>Análisis Estructurado</strong> y <strong>Análisis y Diseño Orientado a Objetos mediante UML</strong>, estableciendo una base de diseño para una futura implementación informática adaptada a las necesidades de la empresa.
-            </p>
-          </div>
-        </div>
-
-
-        <!-- -------------------------------------------------------------------
-             SUBPESTAÑA INDEPENDIENTE 3: ANTECEDENTES DE LA ORGANIZACIÓN
-             ------------------------------------------------------------------- -->
-        <div id="p1-sub-3" class="tab-fade hidden bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+    <!-- Tarjetas inferiores de módulos -->
+    <div class="bg-black/20 border-t border-white/10">
+      <div class="max-w-6xl mx-auto px-6 sm:px-12 py-5 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div onclick="openCap1Subtab(1)" class="cursor-pointer p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition flex items-center justify-between">
           <div>
-            <span class="text-oag-blue font-bold text-xs uppercase tracking-wider block mb-1">
-              I. GENERALIDADES Y MARCO TEÓRICO · SECCIÓN 1.2
-            </span>
-            <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-4">
-              3. Antecedentes de la Organización
-            </h2>
-            <p class="text-slate-700 leading-relaxed text-[15px]">
-              <strong>Oruro Artes Gráficas S.R.L.</strong> es una empresa legalmente constituida en Bolivia, con domicilio legal en la <strong>avenida Núñez del Prado N.º 971, zona Ciudad Satélite</strong>. Cuenta con más de diez años de experiencia en la prestación de servicios gráficos a nivel nacional, desarrollando actividades relacionadas con el diseño, la preparación de artes para impresión, la impresión y los acabados gráficos. A lo largo de su trayectoria, ha trabajado con clientes del sector privado y público, entre ellos el Ministerio de Educación.
+            <span class="text-[#ffd100] font-bold block">CAPÍTULO I (9 Subpestañas)</span>
+            <span class="text-blue-100">Generalidades, Árbol de Problemas y Gantt</span>
+          </div>
+          <span class="text-lg">→</span>
+        </div>
+        <div onclick="switchMainTab('parte2')" class="cursor-pointer p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition flex items-center justify-between">
+          <div>
+            <span class="text-[#a8e1f7] font-bold block">CAPÍTULO II (Estructurado)</span>
+            <span class="text-blue-100">Fundamentación, DFD Nivel 0 y DFD Nivel 1</span>
+          </div>
+          <span class="text-lg">→</span>
+        </div>
+        <div onclick="switchMainTab('parte3')" class="cursor-pointer p-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition flex items-center justify-between">
+          <div>
+            <span class="text-[#ff9b96] font-bold block">CAPÍTULO III (Orientado a Objetos)</span>
+            <span class="text-blue-100">Fundamentación, Casos de Uso y Clases UML</span>
+          </div>
+          <span class="text-lg">→</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 1: I. GENERALIDADES Y MARCO TEÓRICO (SUBPESTAÑAS INDEPENDIENTES)-->
+  <!-- ===================================================================== -->
+  <section id="tab-parte1" class="hidden flex-1 bg-white">
+    
+    <!-- Barra de subpestañas independientes del Capítulo I -->
+    <div class="bg-slate-50 border-b border-slate-200 sticky top-[57px] z-40">
+      <div class="max-w-6xl mx-auto px-4 sm:px-8 py-3 flex items-center gap-2 overflow-x-auto">
+        <button id="cap1-btn-1" onclick="openCap1Subtab(1)" class="subtab-pill active">1. Tabla de contenido</button>
+        <button id="cap1-btn-2" onclick="openCap1Subtab(2)" class="subtab-pill">2. Introducción</button>
+        <button id="cap1-btn-3" onclick="openCap1Subtab(3)" class="subtab-pill">3. Antecedentes</button>
+        <button id="cap1-btn-4" onclick="openCap1Subtab(4)" class="subtab-pill">4. Planteamiento</button>
+        <button id="cap1-btn-5" onclick="openCap1Subtab(5)" class="subtab-pill">5. Árbol de problemas</button>
+        <button id="cap1-btn-6" onclick="openCap1Subtab(6)" class="subtab-pill">6. Formulación</button>
+        <button id="cap1-btn-7" onclick="openCap1Subtab(7)" class="subtab-pill">7. Objetivos</button>
+        <button id="cap1-btn-8" onclick="openCap1Subtab(8)" class="subtab-pill">8. Metodología</button>
+        <button id="cap1-btn-9" onclick="openCap1Subtab(9)" class="subtab-pill">9. Planificación (1.8)</button>
+      </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-8 py-10">
+
+      <!-- SUBPESTAÑA 1: TABLA DE CONTENIDO -->
+      <div id="cap1-sub-1" class="cap1-subview">
+        <p class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6] mb-1">PARTE I · ESTRUCTURA OFICIAL DEL INFORME</p>
+        <h2 class="text-3xl font-extrabold text-slate-900 mb-6">Tabla de contenido</h2>
+
+        <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+          <div onclick="switchMainTab('portada')" class="toc-row toc-row-header">
+            <span>Portada Institucional — "Oruro Artes Gráficas S.R.L."</span>
+            <span class="text-xs font-semibold text-[#0b5da6]">Ver portada →</span>
+          </div>
+          <div class="toc-row toc-row-header">
+            <span>CAPÍTULO I. GENERALIDADES Y MARCO TEÓRICO</span>
+            <span class="text-xs text-slate-400">9 secciones</span>
+          </div>
+          <div onclick="openCap1Subtab(2)" class="toc-row toc-row-sub">
+            <span>1.1 Introducción</span>
+            <span class="text-xs text-slate-400">Abrir →</span>
+          </div>
+          <div onclick="openCap1Subtab(3)" class="toc-row toc-row-sub">
+            <span>1.2 Antecedentes de la Organización (1.2.1 Maquinaria, 1.2.2 Almacenes, 1.2.3 Tecnología, 1.2.4 Proveedores, 1.2.5 Misión, 1.2.6 Visión, 1.2.7 Relación)</span>
+            <span class="text-xs text-slate-400">Abrir →</span>
+          </div>
+          <div onclick="openCap1Subtab(4)" class="toc-row toc-row-sub">
+            <span>1.3 Planteamiento del Problema</span>
+            <span class="text-xs text-slate-400">Abrir →</span>
+          </div>
+          <div onclick="openCap1Subtab(5)" class="toc-row toc-row-sub">
+            <span>1.4 Árbol de Problemas (Esquema Causal Interactivo)</span>
+            <span class="text-xs text-slate-400">Abrir →</span>
+          </div>
+          <div onclick="openCap1Subtab(6)" class="toc-row toc-row-sub">
+            <span>1.5 Formulación del Problema</span>
+            <span class="text-xs text-slate-400">Abrir →</span>
+          </div>
+          <div onclick="openCap1Subtab(7)" class="toc-row toc-row-sub">
+            <span>1.6 Propósito y Objetivos del Estudio (1.6.1.1 Objetivo General y 1.6.1.2 Objetivos Específicos)</span>
+            <span class="text-xs text-slate-400">Abrir →</span>
+          </div>
+          <div onclick="openCap1Subtab(8)" class="toc-row toc-row-sub">
+            <span>1.7 Método, Medios e Instrumentos de Investigación (1.7.1 Método, 1.7.2 Medios, 1.7.3 Instrumentos)</span>
+            <span class="text-xs text-slate-400">Abrir →</span>
+          </div>
+          <div onclick="openCap1Subtab(9)" class="toc-row toc-row-sub">
+            <span>1.8 Planificación de actividades (Teoría + Cuadro de Fases y Diagrama de Gantt Interactivo)</span>
+            <span class="text-xs text-slate-400">Abrir →</span>
+          </div>
+          <div onclick="switchMainTab('parte2')" class="toc-row toc-row-header">
+            <span>CAPÍTULO II. ANÁLISIS Y DISEÑO ESTRUCTURADO (2.1 Fundamentación, 2.2.1 DFD Nivel 0, 2.2.2 DFD Nivel 1)</span>
+            <span class="text-xs font-semibold text-[#0b5da6]">Ir al módulo →</span>
+          </div>
+          <div onclick="switchMainTab('parte3')" class="toc-row toc-row-header">
+            <span>CAPÍTULO III. ANÁLISIS Y DISEÑO ORIENTADO A OBJETOS - UML (3.1 Fundamentación, 3.2 Casos de Uso, 3.3 Clases)</span>
+            <span class="text-xs font-semibold text-[#0b5da6]">Ir al módulo →</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBPESTAÑA 2: 1.1 INTRODUCCIÓN -->
+      <div id="cap1-sub-2" class="cap1-subview hidden">
+        <p class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6] mb-1">CAPÍTULO I · SECCIÓN 1.1</p>
+        <h2 class="text-3xl font-extrabold text-slate-900 mb-6">1.1 Introducción</h2>
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 sm:p-8 space-y-4 text-slate-700 leading-relaxed text-justify">
+          <p>
+            El sector de la industria gráfica y de las imprentas artesanales y semiindustriales enfrenta el desafío de administrar adecuadamente las materias primas e insumos necesarios para sus actividades, considerando la variedad de materiales utilizados, sus diferentes características y la necesidad de mantener un equilibrio entre calidad y costos. En este contexto, el control de inventarios constituye un aspecto importante para conocer las existencias disponibles, identificar las necesidades de reposición y disponer de información organizada para apoyar la toma de decisiones.
+          </p>
+          <p>
+            <strong>Oruro Artes Gráficas SRL</strong> es una empresa dedicada al diseño gráfico y a los servicios de impresión, que inició sus actividades en 2005 y cuenta con más de diez años de experiencia trabajando con clientes del sector privado y público, entre ellos el <strong>Ministerio de Educación</strong>. Para desarrollar sus actividades, requiere materias primas e insumos como papel, tintas, cartones y otros materiales relacionados con los trabajos de impresión. La disponibilidad de estos recursos es importante para organizar las adquisiciones y atender los requerimientos de sus clientes.
+          </p>
+          <p>
+            La empresa tiene como misión proporcionar soluciones de impresión de alta calidad que superen las expectativas de sus clientes, utilizando tecnología de vanguardia y un equipo comprometido con la excelencia. Asimismo, su visión es ser líder en la industria de impresión a nivel nacional e internacional, con reconocimiento por su innovación, calidad y compromiso con la sostenibilidad ambiental.
+          </p>
+          <p>
+            Actualmente, la empresa no cuenta con un sistema informático de inventarios que permita gestionar de manera centralizada la información sobre las materias primas e insumos disponibles. Esta situación plantea la necesidad de contar con un mecanismo organizado para registrar y consultar las existencias, controlar las entradas y salidas de materiales, conocer las cantidades disponibles e identificar posibles faltantes o excedentes. Asimismo, resulta importante disponer de información que facilite la determinación de las necesidades de reposición y la planificación de futuras adquisiciones.
+          </p>
+          <p>
+            Otro aspecto relacionado con la gestión de los materiales es la selección de proveedores. Parte de las adquisiciones se realiza considerando las alternativas disponibles en el mercado, buscando un equilibrio entre precio y calidad. Por ello, el sistema propuesto también contempla, dentro de su alcance, el registro y la comparación de cotizaciones, así como la organización de información que permita evaluar a los proveedores habituales.
+          </p>
+          <p>
+            Ante esta situación, el presente proyecto tiene como objetivo principal realizar el análisis y diseño de un sistema informático de inventarios para <strong>Oruro Artes Gráficas SRL</strong>, orientado al registro, control y consulta de las existencias y de sus movimientos. Para su desarrollo se aplicarán los enfoques de <strong>análisis estructurado</strong> y <strong>análisis y diseño orientado a objetos mediante UML</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- SUBPESTAÑA 3: 1.2 ANTECEDENTES DE LA ORGANIZACIÓN -->
+      <div id="cap1-sub-3" class="cap1-subview hidden">
+        <p class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6] mb-1">CAPÍTULO I · SECCIÓN 1.2</p>
+        <h2 class="text-3xl font-extrabold text-slate-900 mb-6">1.2 Antecedentes de la Organización</h2>
+
+        <div class="space-y-6 text-slate-700 leading-relaxed">
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 text-justify">
+            <p class="mb-3">
+              <strong>Oruro Artes Gráficas SRL</strong> es una empresa legalmente constituida en Bolivia, con domicilio legal en la <strong>avenida Núñez del Prado N.º 971, zona Ciudad Satélite</strong>. Cuenta con más de diez años de experiencia en la prestación de servicios gráficos a nivel nacional, desarrollando actividades relacionadas con el diseño, la preparación de artes para impresión, la impresión y los acabados gráficos. A lo largo de su trayectoria, ha trabajado con clientes del sector privado y público, entre ellos el Ministerio de Educación.
+            </p>
+            <p>
+              La organización desarrolla sus actividades mediante diferentes etapas de producción, desde la preparación de los archivos y materiales para la impresión hasta el procesamiento y acabado de los productos gráficos (preprensa, prensa y postprensa).
             </p>
           </div>
 
-          <!-- 1.2.1 Infraestructura y maquinaria de producción -->
-          <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
-            <h3 class="font-bold text-lg text-slate-900 mb-4">1.2.1 Infraestructura y maquinaria de producción</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-slate-700">
-              <div class="bg-white p-4 rounded-lg border border-slate-200">
-                <h4 class="font-bold text-oag-blue mb-2">a) Preprensa</h4>
-                <p class="mb-2 text-xs text-slate-500">Preparación de archivos y elementos antes de realizar la impresión:</p>
-                <ul class="list-disc pl-5 space-y-1.5">
-                  <li><strong>7 Computadoras de la Marca Mac:</strong> 3 utilizadas en diseño y preparación de trabajos gráficos, 1 de contabilidad, 1 de cotizaciones, 1 de jefatura y 1 sistema de cámaras.</li>
-                  <li><strong>CTP (Computer to Plate):</strong> Equipo empleado para transferir los trabajos digitales a las planchas de impresión.</li>
+          <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <h3 class="text-lg font-bold text-slate-900 mb-4">1.2.1 Infraestructura y maquinaria de producción</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="text-xs font-bold uppercase text-[#0b5da6]">a) Preprensa</span>
+                <ul class="mt-2 text-sm space-y-1.5 list-disc pl-4">
+                  <li><strong>7 Computadoras Mac:</strong> 3 en diseño y preparación de trabajos gráficos, 1 contabilidad, 1 cotizaciones, 1 jefatura, 1 sistema de cámaras.</li>
+                  <li><strong>Equipo CTP (Computer to Plate):</strong> transfiere los trabajos digitales a las planchas de impresión.</li>
                 </ul>
               </div>
-              <div class="bg-white p-4 rounded-lg border border-slate-200">
-                <h4 class="font-bold text-oag-blue mb-2">b) Prensa</h4>
-                <p class="mb-2 text-xs text-slate-500">Impresión de trabajos con maquinaria de la marca Heidelberg:</p>
-                <ul class="list-disc pl-5 space-y-1.5">
+              <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="text-xs font-bold uppercase text-[#e62e25]">b) Prensa</span>
+                <p class="text-xs text-slate-500 mt-1">Maquinaria de impresión marca Heidelberg:</p>
+                <ul class="mt-2 text-sm space-y-1.5 list-disc pl-4">
                   <li><strong>Heidelberg Speedmaster 52</strong> de cuatro cuerpos.</li>
                   <li><strong>Heidelberg Speedmaster 74</strong> de dos cuerpos.</li>
                 </ul>
-                <p class="mt-2 text-xs text-slate-500">Su utilización requiere disponer oportunamente de materiales e insumos para cada trabajo.</p>
               </div>
-              <div class="bg-white p-4 rounded-lg border border-slate-200">
-                <h4 class="font-bold text-oag-blue mb-2">c) Postprensa</h4>
-                <p class="mb-2 text-xs text-slate-500">Operaciones posteriores de acabado y presentación final (marca Heidelberg):</p>
-                <p class="leading-relaxed">
+              <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="text-xs font-bold uppercase text-amber-600">c) Postprensa</span>
+                <p class="text-xs text-slate-500 mt-1">Equipos de acabado marca Heidelberg:</p>
+                <p class="mt-2 text-sm">
                   Dobladoras, Compaginadoras, Guillotinas, Estampadora, Plastificadora, Sectorizadora, Engrampadora, Emblocadora y Engarradoras.
                 </p>
               </div>
             </div>
+            <p class="mt-4 text-xs text-slate-600 bg-blue-50/70 border border-blue-200 rounded-lg p-3">
+              <strong>Delimitación operativa:</strong> El sistema propuesto se centrará en la <strong>gestión de inventarios</strong> y no en el control de tiempos de producción, la asignación de cargas de trabajo ni el mantenimiento de las máquinas.
+            </p>
           </div>
 
-          <!-- 1.2.2 Almacenamiento y 1.2.3 Infraestructura tecnológica -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="border border-slate-200 rounded-xl p-5">
-              <h3 class="font-bold text-base text-slate-900 mb-3">1.2.2 Infraestructura de almacenamiento</h3>
-              <ul class="space-y-3 text-sm text-slate-700">
-                <li>
-                  <strong class="text-oag-blue">• Almacén 1 (Materias primas e insumos):</strong> Destinado al acopio de materiales utilizados en los trabajos gráficos, como papeles de distintos gramajes, cartones, vinilos, sustratos especiales y otros insumos de impresión.
-                </li>
-                <li>
-                  <strong class="text-oag-blue">• Almacén 2 (Productos terminados):</strong> Destinado al almacenamiento de los productos gráficos que han concluido su proceso de elaboración y están listos para su entrega al cliente.
-                </li>
-              </ul>
-            </div>
-
-            <div class="border border-slate-200 rounded-xl p-5">
-              <h3 class="font-bold text-base text-slate-900 mb-3">1.2.3 Infraestructura tecnológica</h3>
-              <ul class="list-disc pl-5 space-y-1.5 text-sm text-slate-700">
-                <li>1 equipo asignado al control y monitoreo de las máquinas de producción.</li>
-                <li>1 equipo destinado al área contable y financiera (facturación y cobros).</li>
-                <li>3 equipos dedicados al taller de diseño gráfico (preprensa, diseño y validación de artes).</li>
-                <li>1 equipo destinado a la Jefatura o Dirección (supervisión y toma de decisiones).</li>
-                <li>1 equipo dedicado al sistema de seguridad electrónica (cámaras de videovigilancia y alarmas).</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- 1.2.4, 1.2.5 Misión, 1.2.6 Visión y 1.2.7 Relación -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="border border-slate-200 rounded-xl p-5">
-              <h3 class="font-bold text-base text-slate-900 mb-2">1.2.4 Gestión de proveedores</h3>
-              <p class="text-sm text-slate-700 leading-relaxed">
-                La selección busca una relación conveniente entre precio y calidad (marca, tipo de material, grosor), por lo que comparar cotizaciones y evaluar proveedores habituales es relevante para planificar adquisiciones.
-              </p>
-            </div>
-            <div class="bg-blue-50/60 border border-oag-blue/20 rounded-xl p-5">
-              <h3 class="font-bold text-base text-oag-blue mb-2">1.2.5 Misión de la organización</h3>
-              <p class="text-sm text-slate-700 leading-relaxed">
-                Proporcionar soluciones de impresión de alta calidad que superen las expectativas de nuestros clientes, utilizando tecnología de vanguardia y un equipo comprometido con la excelencia.
-              </p>
-            </div>
-            <div class="bg-blue-50/60 border border-oag-blue/20 rounded-xl p-5">
-              <h3 class="font-bold text-base text-oag-blue mb-2">1.2.6 Visión de la organización</h3>
-              <p class="text-sm text-slate-700 leading-relaxed">
-                Ser líderes en la industria de impresión a nivel nacional e internacional, reconocidos por nuestra innovación, calidad y compromiso con la sostenibilidad ambiental.
-              </p>
-            </div>
-          </div>
-        </div>
-
-
-        <!-- -------------------------------------------------------------------
-             SUBPESTAÑA INDEPENDIENTE 4: PLANTEAMIENTO DEL PROBLEMA
-             ------------------------------------------------------------------- -->
-        <div id="p1-sub-4" class="tab-fade hidden bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
-          <span class="text-oag-blue font-bold text-xs uppercase tracking-wider block mb-1">
-            I. GENERALIDADES Y MARCO TEÓRICO · SECCIÓN 1.3
-          </span>
-          <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-5">
-            4. Planteamiento del Problema
-          </h2>
-          <div class="space-y-4 text-slate-700 leading-relaxed text-[15px]">
-            <p>
-              Actualmente, <strong>Oruro Artes Gráficas S.R.L.</strong> no cuenta con un sistema informático de inventarios que permita registrar, controlar y consultar de manera organizada las existencias de materias primas e insumos utilizados en sus actividades de impresión. Esta situación plantea la necesidad de disponer de información precisa sobre las cantidades disponibles, las entradas y salidas de materiales y los requerimientos de reposición.
-            </p>
-            <p>
-              La variedad de materiales utilizados en la empresa, como papeles de diferentes gramajes, cartones, vinilos, tintas y otros insumos gráficos, hace necesario contar con un mecanismo que facilite su identificación y seguimiento. Asimismo, la falta de un sistema informático específico dificulta disponer de una herramienta centralizada para consultar las existencias y apoyar la planificación de las adquisiciones.
-            </p>
-            <p>
-              Por otra parte, la empresa considera diferentes proveedores para adquirir materiales según sus características, calidad y precio. Por ello, resulta conveniente organizar la información de las cotizaciones y de los proveedores habituales, de modo que pueda facilitarse la comparación de alternativas y apoyar las decisiones de compra.
-            </p>
-            <div class="p-5 rounded-xl bg-blue-50/70 border-l-4 border-oag-blue text-slate-900 font-medium">
-              En consecuencia, el problema principal radica en la ausencia de un sistema informático de inventarios adaptado a las necesidades de Oruro Artes Gráficas S.R.L., que permita gestionar de manera organizada las existencias y sus movimientos, identificar las necesidades de reposición y facilitar la consulta de información relevante para la adquisición de materiales.
-            </div>
-          </div>
-        </div>
-
-
-        <!-- -------------------------------------------------------------------
-             SUBPESTAÑA INDEPENDIENTE 5: ÁRBOL DE PROBLEMAS
-             ------------------------------------------------------------------- -->
-        <div id="p1-sub-5" class="tab-fade hidden bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
-          <span class="text-oag-blue font-bold text-xs uppercase tracking-wider block mb-1">
-            I. GENERALIDADES Y MARCO TEÓRICO · SECCIÓN 1.4
-          </span>
-          <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-5">
-            5. Árbol de Problemas
-          </h2>
-
-        
-          <div class="mb-6 border border-slate-200 rounded-xl p-4 bg-white text-center">
-            <img src="Imagenes/ArbolProblemas.png" alt="Árbol de Problemas" class="max-h-96 mx-auto object-contain rounded">
-          </div>
-        
-
-          <div class="border border-slate-200 rounded-xl p-6 bg-slate-50 space-y-6">
-            <div>
-              <p class="text-xs font-bold uppercase tracking-wider text-oag-red text-center mb-3">
-                EFECTOS / CONSECUENCIAS SUPERIORES
-              </p>
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white border border-slate-200 rounded-xl p-4 text-center shadow-sm">
-                  <p class="font-bold text-sm text-slate-900">Retrasos en entregas al cliente</p>
-                  <p class="text-xs text-slate-500 mt-1">Demoras por falta imprevista de materiales o sustratos de impresión.</p>
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+              <h3 class="text-lg font-bold text-slate-900 mb-3">1.2.2 Infraestructura de almacenamiento</h3>
+              <div class="space-y-3 text-sm">
+                <div class="p-3.5 rounded-lg bg-blue-50/60 border border-blue-200">
+                  <strong class="text-[#0b5da6] block">Almacén 1: Materias primas e insumos</strong>
+                  Destinado al acopio de papeles de distintos gramajes, cartones, vinilos, sustratos especiales, tintas y placas necesarios para la impresión.
                 </div>
-                <div class="bg-white border border-slate-200 rounded-xl p-4 text-center shadow-sm">
-                  <p class="font-bold text-sm text-slate-900">Sobreconsumo y merma de insumos</p>
-                  <p class="text-xs text-slate-500 mt-1">Desperdicio o extravío de insumos al no contar con kardex digital.</p>
-                </div>
-                <div class="bg-white border border-slate-200 rounded-xl p-4 text-center shadow-sm">
-                  <p class="font-bold text-sm text-slate-900">Pérdida de rentabilidad y competitividad</p>
-                  <p class="text-xs text-slate-500 mt-1">Adquisiciones de emergencia sin comparativa histórica de precios.</p>
+                <div class="p-3.5 rounded-lg bg-amber-50/60 border border-amber-200">
+                  <strong class="text-amber-800 block">Almacén 2: Productos terminados</strong>
+                  Destinado al almacenamiento de los productos gráficos que han concluido su proceso de elaboración y están listos para su entrega al cliente.
                 </div>
               </div>
             </div>
 
-            <div class="max-w-xl mx-auto bg-oag-blue text-white rounded-xl p-5 text-center shadow-md border-b-4 border-oag-yellow">
-              <span class="text-[11px] font-bold uppercase tracking-widest text-oag-yellow block mb-1">
-                PROBLEMA CENTRAL
-              </span>
-              <p class="font-display font-bold text-lg">
-                BAJA PRODUCTIVIDAD Y AUSENCIA DE CONTROL SISTEMATIZADO DE INVENTARIOS EN LA IMPRENTA
-              </p>
-            </div>
-
-            <div>
-              <p class="text-xs font-bold uppercase tracking-wider text-oag-blue text-center mb-3">
-                CAUSAS RAÍZ INFERIORES
-              </p>
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white border border-slate-200 rounded-xl p-4 text-center shadow-sm">
-                  <p class="font-bold text-sm text-slate-900">Falta de integración operativa</p>
-                  <p class="text-xs text-slate-500 mt-1">Desconexión informativa entre Diseño, Almacenes (1 y 2) y Máquinas.</p>
-                </div>
-                <div class="bg-white border border-slate-200 rounded-xl p-4 text-center shadow-sm">
-                  <p class="font-bold text-sm text-slate-900">Gestión manual de compras ("Al mejor postor")</p>
-                  <p class="text-xs text-slate-500 mt-1">Falta de registro estructurado de cotizaciones y proveedores habituales.</p>
-                </div>
-                <div class="bg-white border border-slate-200 rounded-xl p-4 text-center shadow-sm">
-                  <p class="font-bold text-sm text-slate-900">Ausencia de trazabilidad</p>
-                  <p class="text-xs text-slate-500 mt-1">Falta de control automatizado de entradas, salidas y alertas de reposición.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <!-- -------------------------------------------------------------------
-             SUBPESTAÑA INDEPENDIENTE 6: FORMULACIÓN DEL PROBLEMA
-             ------------------------------------------------------------------- -->
-        <div id="p1-sub-6" class="tab-fade hidden bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
-          <span class="text-oag-blue font-bold text-xs uppercase tracking-wider block mb-1">
-            I. GENERALIDADES Y MARCO TEÓRICO · SECCIÓN 1.5
-          </span>
-          <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-5">
-            6. Formulación del Problema
-          </h2>
-          <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-oag-dark to-oag-blue text-white shadow-md">
-            <span class="text-xs font-bold uppercase tracking-widest text-oag-yellow block mb-3">
-              PREGUNTA DE INVESTIGACIÓN
-            </span>
-            <p class="text-base sm:text-lg leading-relaxed italic font-normal">
-              "¿De qué manera el análisis y diseño de un sistema informático de inventarios, desarrollado mediante los enfoques de análisis estructurado y análisis y diseño orientado a objetos con UML, permitirá mejorar la organización, el registro, el control y la consulta de las existencias de materias primas, insumos y productos terminados en Oruro Artes Gráficas S.R.L., facilitando el seguimiento de las entradas y salidas de materiales, la identificación de las cantidades disponibles y las necesidades de reposición, así como la organización de información sobre las cotizaciones y los proveedores habituales, con el propósito de apoyar la planificación de las adquisiciones y contribuir a una gestión de inventarios más ordenada y eficiente, de acuerdo con las necesidades operativas de la empresa?"
-            </p>
-          </div>
-        </div>
-
-
-        <!-- -------------------------------------------------------------------
-             SUBPESTAÑA INDEPENDIENTE 7: PROPÓSITO DEL ESTUDIO (OBJETIVOS)
-             ------------------------------------------------------------------- -->
-        <div id="p1-sub-7" class="tab-fade hidden bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
-          <div>
-            <span class="text-oag-blue font-bold text-xs uppercase tracking-wider block mb-1">
-              I. GENERALIDADES Y MARCO TEÓRICO · SECCIÓN 1.6
-            </span>
-            <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-900">
-              7. Propósito del Estudio (Objetivo General y Específicos)
-            </h2>
-          </div>
-
-          <div class="p-6 rounded-xl bg-oag-blue text-white border-l-8 border-oag-yellow">
-            <h3 class="font-bold text-xs uppercase tracking-wider text-oag-yellow mb-2">
-              1.6.1.1 Objetivo General
-            </h3>
-            <p class="text-sm sm:text-base leading-relaxed">
-              Realizar el análisis y diseño de un sistema informático de inventarios para Oruro Artes Gráficas S.R.L., aplicando los enfoques de Análisis Estructurado y Análisis y Diseño Orientado a Objetos mediante UML, con la finalidad de establecer una propuesta que permita organizar el registro, control y consulta de las existencias, gestionar los movimientos de materiales y facilitar la planificación de las reposiciones, considerando las necesidades operativas de la empresa.
-            </p>
-          </div>
-
-          <div>
-            <h3 class="font-bold text-lg text-slate-900 mb-3">1.6.1.2 Objetivos Específicos</h3>
-            <div class="space-y-3 text-sm sm:text-[15px] text-slate-700">
-              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex space-x-3">
-                <span class="font-display font-black text-oag-blue">01.</span>
-                <p>Recopilar información sobre los procesos actuales de inventario de Oruro Artes Gráficas S.R.L. mediante entrevistas, observación y revisión de la información disponible, con el propósito de identificar las necesidades de la empresa y los requerimientos del sistema propuesto.</p>
-              </div>
-              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex space-x-3">
-                <span class="font-display font-black text-oag-blue">02.</span>
-                <p>Analizar los requerimientos funcionales y las necesidades de información del sistema, delimitando la gestión de materias primas, insumos, productos terminados, almacenes, entradas, salidas, existencias y reposiciones, así como la información complementaria de cotizaciones y proveedores habituales.</p>
-              </div>
-              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex space-x-3">
-                <span class="font-display font-black text-oag-blue">03.</span>
-                <p>Modelar los procesos y flujos de información del sistema mediante Análisis Estructurado, elaborando el diagrama de contexto y los diagramas de flujo de datos correspondientes, con la identificación de los procesos, las entidades externas, los almacenes de datos y los flujos de información.</p>
-              </div>
-              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex space-x-3">
-                <span class="font-display font-black text-oag-blue">04.</span>
-                <p>Diseñar el modelo conceptual del sistema mediante UML, elaborando el diagrama de clases con sus atributos, métodos, asociaciones, herencia, agregación o composición cuando corresponda y multiplicidades, de acuerdo con los requerimientos identificados.</p>
-              </div>
-              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex space-x-3">
-                <span class="font-display font-black text-oag-blue">05.</span>
-                <p>Integrar los resultados del análisis y diseño en una propuesta coherente del sistema de inventarios, incluyendo el modelo de datos preliminar y la representación de la interfaz del usuario, de manera que los elementos propuestos respondan a las necesidades identificadas y sirvan como base para una futura implementación informática.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <!-- -------------------------------------------------------------------
-             SUBPESTAÑA INDEPENDIENTE 8: MÉTODO, MEDIOS, INSTRUMENTOS Y ALCANCES
-             ------------------------------------------------------------------- -->
-        <div id="p1-sub-8" class="tab-fade hidden bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
-          <div>
-            <span class="text-oag-blue font-bold text-xs uppercase tracking-wider block mb-1">
-              I. GENERALIDADES Y MARCO TEÓRICO · SECCIÓN 1.7
-            </span>
-            <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-900">
-              8. Método, Medios e Instrumentos de Investigación, Justificación y Alcances
-            </h2>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-sm text-slate-700">
-            <div class="border border-slate-200 rounded-xl p-5 bg-slate-50/60">
-              <h3 class="font-bold text-oag-blue mb-2">1.7.1 Método</h3>
-              <ul class="space-y-2">
-                <li><strong>• Enfoque sistémico:</strong> Comprende la gestión de inventarios como un conjunto de elementos relacionados (materiales, almacenes, proveedores, entradas y salidas).</li>
-                <li><strong>• Método analítico:</strong> Examina por separado el registro de materiales, control de cantidades, movimientos, reposición y cotizaciones.</li>
-                <li><strong>• Método sintético:</strong> Integra la información obtenida para establecer una visión general del sistema y sus funciones.</li>
-              </ul>
-            </div>
-
-            <div class="border border-slate-200 rounded-xl p-5 bg-slate-50/60">
-              <h3 class="font-bold text-oag-blue mb-2">1.7.2 Medios de investigación</h3>
-              <ul class="space-y-2">
-                <li><strong>• Observación directa:</strong> Observación de las actividades de almacenamiento y utilización de materias primas e insumos en los Almacenes 1 y 2.</li>
-                <li><strong>• Análisis documental:</strong> Revisión de registros de materiales, órdenes de trabajo, comprobantes, cotizaciones y facturas.</li>
-                <li><strong>• Consulta al personal:</strong> Recopilación de información del personal de almacenamiento, adquisición y utilización de materiales.</li>
-              </ul>
-            </div>
-
-            <div class="border border-slate-200 rounded-xl p-5 bg-slate-50/60">
-              <h3 class="font-bold text-oag-blue mb-2">1.7.3 Instrumentos</h3>
-              <ul class="space-y-2">
-                <li><strong>• Guía de entrevista:</strong> Dirigida a Jefatura/Dirección, personal de almacén, área contable, diseñadores y operarios.</li>
-                <li><strong>• Guía de observación:</strong> Registro de identificación de productos, recepción de insumos, salidas y consulta de existencias.</li>
-                <li><strong>• Ficha de revisión documental:</strong> Organización de nombre/código del material, unidad de medida, cantidad, fecha y proveedor.</li>
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+              <h3 class="text-lg font-bold text-slate-900 mb-3">1.2.3 Infraestructura tecnológica</h3>
+              <p class="text-xs text-slate-500 mb-2">Distribución de los 7 equipos de cómputo en la empresa:</p>
+              <ul class="text-sm space-y-1.5 list-disc pl-5">
+                <li><strong>1 equipo:</strong> Control y monitoreo de las máquinas de producción.</li>
+                <li><strong>1 equipo:</strong> Área contable y financiera (facturación y cobros).</li>
+                <li><strong>3 equipos:</strong> Taller de diseño gráfico (preprensa, diseño y validación de artes).</li>
+                <li><strong>1 equipo:</strong> Jefatura o Dirección (supervisión y toma de decisiones).</li>
+                <li><strong>1 equipo:</strong> Sistema de seguridad electrónica (videovigilancia y alarmas).</li>
               </ul>
             </div>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-sm text-slate-700">
-            <div class="border border-slate-200 rounded-xl p-5">
-              <h3 class="font-bold text-slate-900 mb-2">Justificación del Proyecto</h3>
-              <p class="leading-relaxed">
-                El diseño del sistema informático se justifica al proporcionar a Oruro Artes Gráficas S.R.L. un mecanismo organizado y centralizado que evita quiebres de stock en tirajes de impresión, controla las entradas y salidas de materiales y respalda las decisiones de compra con información comparativa de cotizaciones.
-              </p>
+          <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <h3 class="text-lg font-bold text-slate-900 mb-2">1.2.4 Gestión de proveedores y adquisición de materiales</h3>
+            <p class="text-sm text-justify">
+              La adquisición de materias primas e insumos considera las alternativas disponibles entre distintos proveedores, buscando una relación conveniente entre el precio y la calidad de los materiales (marca, tipo de material, grosor y especificaciones del cliente). La comparación de cotizaciones y la organización de información sobre proveedores habituales se integran como funciones complementarias de apoyo a la planificación de adquisiciones.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-slate-50 border-l-4 border-[#0b5da6] rounded-r-xl p-5">
+              <h3 class="text-sm font-extrabold uppercase text-[#0b5da6] mb-1">1.2.5 Misión de la organización</h3>
+              <p class="text-sm">Proporcionar soluciones de impresión de alta calidad que superen las expectativas de nuestros clientes, utilizando tecnología de vanguardia y un equipo comprometido con la excelencia.</p>
             </div>
-            <div class="border border-slate-200 rounded-xl p-5">
-              <h3 class="font-bold text-slate-900 mb-2">Alcances y Delimitación</h3>
-              <p class="leading-relaxed">
-                El alcance comprende la gestión de materias primas e insumos (Almacén 1), productos terminados (Almacén 2), movimientos de entrada/salida, alertas de reposición y registro de cotizaciones y proveedores habituales. No abarca el control de tiempos de producción ni el mantenimiento de las máquinas Heidelberg.
-              </p>
+            <div class="bg-slate-50 border-l-4 border-[#e62e25] rounded-r-xl p-5">
+              <h3 class="text-sm font-extrabold uppercase text-[#e62e25] mb-1">1.2.6 Visión de la organización</h3>
+              <p class="text-sm">Ser líderes en la industria de impresión a nivel nacional e internacional, reconocidos por nuestra innovación, calidad y compromiso con la sostenibilidad ambiental.</p>
             </div>
           </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+            <h3 class="text-base font-bold text-slate-900 mb-1">1.2.7 Relación de los antecedentes con el proyecto</h3>
+            <p class="text-sm text-justify">
+              La variedad de equipos de producción, la existencia de almacenes diferenciados y la adquisición de materiales con distintas especificaciones sirven como base para analizar y diseñar un sistema informático de inventarios que permita organizar la información de los materiales, registrar sus entradas y salidas, consultar las cantidades disponibles e identificar las necesidades de reposición mediante Análisis Estructurado y UML.
+            </p>
+          </div>
         </div>
+      </div>
 
-
-        <!-- -------------------------------------------------------------------
-             SUBPESTAÑA INDEPENDIENTE 9: PLANIFICACIÓN DE ACTIVIDADES
-             ------------------------------------------------------------------- -->
-        <div id="p1-sub-9" class="tab-fade hidden bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
-          <span class="text-oag-blue font-bold text-xs uppercase tracking-wider block mb-1">
-            I. GENERALIDADES Y MARCO TEÓRICO · SECCIÓN 1.8
-          </span>
-          <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-900 mb-3">
-            9. Planificación de Actividades
-          </h2>
-          <p class="text-sm text-slate-600 mb-6">
-            Planificación por fases, tareas y cronograma de entregas del proyecto (Gestión 2026):
+      <!-- SUBPESTAÑA 4: 1.3 PLANTEAMIENTO DEL PROBLEMA -->
+      <div id="cap1-sub-4" class="cap1-subview hidden">
+        <p class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6] mb-1">CAPÍTULO I · SECCIÓN 1.3</p>
+        <h2 class="text-3xl font-extrabold text-slate-900 mb-6">1.3 Planteamiento del Problema</h2>
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 sm:p-8 space-y-4 text-slate-700 leading-relaxed text-justify">
+          <p>
+            Actualmente, <strong>Oruro Artes Gráficas SRL</strong> no cuenta con un sistema informático de inventarios que permita registrar, controlar y consultar de manera organizada las existencias de materias primas e insumos utilizados en sus actividades de impresión. Esta situación plantea la necesidad de disponer de información precisa sobre las cantidades disponibles, las entradas y salidas de materiales y los requerimientos de reposición.
           </p>
+          <p>
+            La variedad de materiales utilizados en la empresa, como papeles de diferentes gramajes, cartones, vinilos, tintas y otros insumos gráficos, hace necesario contar con un mecanismo que facilite su identificación y seguimiento. Asimismo, la falta de un sistema informático específico dificulta disponer de una herramienta centralizada para consultar las existencias y apoyar la planificación de las adquisiciones.
+          </p>
+          <p>
+            Por otra parte, la empresa considera diferentes proveedores para adquirir materiales según sus características, calidad y precio. Por ello, resulta conveniente organizar la información de las cotizaciones y de los proveedores habituales, de modo que pueda facilitarse la comparación de alternativas y apoyar las decisiones de compra.
+          </p>
+          <div class="p-4 rounded-lg bg-white border-l-4 border-[#e62e25] shadow-sm">
+            <strong class="text-slate-900 block mb-1">Síntesis del Problema Principal:</strong>
+            En consecuencia, el problema principal radica en la ausencia de un sistema informático de inventarios adaptado a las necesidades de Oruro Artes Gráficas SRL, que permita gestionar de manera organizada las existencias y sus movimientos, identificar las necesidades de reposición y facilitar la consulta de información relevante para la adquisición de materiales.
+          </div>
+        </div>
+      </div>
 
-          <div class="overflow-x-auto border border-slate-200 rounded-xl">
-            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+      <!-- SUBPESTAÑA 5: 1.4 ÁRBOL DE PROBLEMAS (DISEÑO NATIVO CON TODOS LOS 5 NIVELES) -->
+      <div id="cap1-sub-5" class="cap1-subview hidden">
+        <p class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6] mb-1">CAPÍTULO I · SECCIÓN 1.4</p>
+        <h2 class="text-3xl font-extrabold text-slate-900 mb-2">1.4 Árbol de Problemas</h2>
+        <p class="text-sm text-slate-600 mb-6">Árbol de Problemas Reestructurado — Análisis causal enfocado en el alcance del Sistema de Inventarios, Almacenes y Adquisiciones.</p>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-6 space-y-5 shadow-sm">
+          
+          <!-- NIVEL 5: EFECTO SUPERIOR / IMPACTO ORGANIZACIONAL -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-stretch">
+            <div class="md:col-span-2 rounded-xl bg-red-50 border-2 border-red-300 p-3 flex flex-col items-center justify-center text-center">
+              <span class="text-[11px] font-black uppercase text-red-700 leading-tight">EFECTOS<br>FINALES<br><span class="font-semibold">(Impacto)</span></span>
+            </div>
+            <div class="md:col-span-10 rounded-xl bg-red-50/80 border-2 border-red-400 p-4 text-center flex flex-col justify-center shadow-sm">
+              <span class="text-xs font-black uppercase tracking-wider text-red-800">EFECTO SUPERIOR / IMPACTO ORGANIZACIONAL:</span>
+              <p class="text-xs sm:text-sm font-bold text-slate-800 mt-1">
+                Pérdida de rentabilidad, sobrecostos en adquisiciones de emergencia y retrasos en la entrega de trabajos gráficos a clientes del sector público (Ministerio de Educación) y privado, afectando la competitividad de la imprenta.
+              </p>
+            </div>
+          </div>
+
+          <!-- Flechas hacia arriba -->
+          <div class="grid grid-cols-1 md:grid-cols-12">
+            <div class="hidden md:block md:col-span-2"></div>
+            <div class="md:col-span-10 grid grid-cols-3 text-center text-red-600 font-black text-base">
+              <span>↑</span><span>↑</span><span>↑</span>
+            </div>
+          </div>
+
+          <!-- NIVEL 4: EFECTOS DIRECTOS (OPERATIVOS) -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-stretch">
+            <div class="md:col-span-2 rounded-xl bg-amber-50 border-2 border-amber-300 p-3 flex flex-col items-center justify-center text-center">
+              <span class="text-[11px] font-black uppercase text-amber-800 leading-tight">EFECTOS<br>DIRECTOS<br><span class="font-semibold">(Operativos)</span></span>
+            </div>
+            <div class="md:col-span-10 grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="rounded-xl overflow-hidden border-2 border-amber-600 bg-amber-50/70 flex flex-col">
+                <div class="bg-amber-700 text-white text-center py-1.5 text-xs font-extrabold uppercase">Efecto Directo 1</div>
+                <div class="p-3 text-xs text-slate-800 text-center flex-1 flex items-center justify-center">
+                  Quiebres de stock imprevistos o sobrealmacenamiento de papeles, tintas y sustratos para Prensa y Postprensa.
+                </div>
+              </div>
+              <div class="rounded-xl overflow-hidden border-2 border-amber-600 bg-amber-50/70 flex flex-col">
+                <div class="bg-amber-700 text-white text-center py-1.5 text-xs font-extrabold uppercase">Efecto Directo 2</div>
+                <div class="p-3 text-xs text-slate-800 text-center flex-1 flex items-center justify-center">
+                  Diferencias de inventario, mermas no contabilizadas y falta de control sobre saldos en Almacén 1 y Almacén 2.
+                </div>
+              </div>
+              <div class="rounded-xl overflow-hidden border-2 border-amber-600 bg-amber-50/70 flex flex-col">
+                <div class="bg-amber-700 text-white text-center py-1.5 text-xs font-extrabold uppercase">Efecto Directo 3</div>
+                <div class="p-3 text-xs text-slate-800 text-center flex-1 flex items-center justify-center">
+                  Decisiones de compra lentas y subjetivas sin respaldo histórico de precios, calidad ni tiempos de proveedores.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flechas hacia arriba -->
+          <div class="grid grid-cols-1 md:grid-cols-12">
+            <div class="hidden md:block md:col-span-2"></div>
+            <div class="md:col-span-10 grid grid-cols-3 text-center text-[#0b5da6] font-black text-base">
+              <span>↑</span><span>↑</span><span>↑</span>
+            </div>
+          </div>
+
+          <!-- NIVEL 3: PROBLEMA CENTRAL (TRONCO) -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-stretch">
+            <div class="md:col-span-2 rounded-xl bg-blue-50 border-2 border-blue-300 p-3 flex flex-col items-center justify-center text-center">
+              <span class="text-[11px] font-black uppercase text-[#0b5da6] leading-tight">PROBLEMA<br>CENTRAL<br><span class="font-semibold">(Tronco)</span></span>
+            </div>
+            <div class="md:col-span-10 rounded-xl bg-blue-50/90 border-2 border-[#0b5da6] p-4 text-center flex flex-col justify-center shadow-sm">
+              <span class="text-xs font-black uppercase tracking-wider text-[#0b5da6]">PROBLEMA CENTRAL:</span>
+              <p class="text-xs sm:text-sm font-extrabold text-slate-900 mt-1">
+                Inexistencia de un sistema informático centralizado para el registro, control y consulta de existencias y movimientos de inventario (Almacén 1: Materias Primas/Insumos y Almacén 2: Productos Terminados), así como para la evaluación estructurada de cotizaciones y proveedores en Oruro Artes Gráficas SRL.
+              </p>
+            </div>
+          </div>
+
+          <!-- Flechas hacia arriba -->
+          <div class="grid grid-cols-1 md:grid-cols-12">
+            <div class="hidden md:block md:col-span-2"></div>
+            <div class="md:col-span-10 grid grid-cols-3 text-center text-teal-700 font-black text-base">
+              <span>↑</span><span>↑</span><span>↑</span>
+            </div>
+          </div>
+
+          <!-- NIVEL 2: CAUSAS DIRECTAS (NIVEL 1) -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-stretch">
+            <div class="md:col-span-2 rounded-xl bg-teal-50 border-2 border-teal-300 p-3 flex flex-col items-center justify-center text-center">
+              <span class="text-[11px] font-black uppercase text-teal-800 leading-tight">CAUSAS<br>DIRECTAS<br><span class="font-semibold">(Nivel 1)</span></span>
+            </div>
+            <div class="md:col-span-10 grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="rounded-xl overflow-hidden border-2 border-teal-700 bg-teal-50/60 flex flex-col">
+                <div class="bg-teal-800 text-white text-center py-1.5 text-xs font-extrabold uppercase">Causa Directa 1</div>
+                <div class="p-3 text-xs text-slate-800 text-center flex-1 flex items-center justify-center">
+                  Registro manual, disperso y no estandarizado del catálogo de materiales, insumos y productos terminados.
+                </div>
+              </div>
+              <div class="rounded-xl overflow-hidden border-2 border-teal-700 bg-teal-50/60 flex flex-col">
+                <div class="bg-teal-800 text-white text-center py-1.5 text-xs font-extrabold uppercase">Causa Directa 2</div>
+                <div class="p-3 text-xs text-slate-800 text-center flex-1 flex items-center justify-center">
+                  Ausencia de control automatizado de movimientos (entradas/salidas) y de alertas de punto de reorden / stock mínimo.
+                </div>
+              </div>
+              <div class="rounded-xl overflow-hidden border-2 border-teal-700 bg-teal-50/60 flex flex-col">
+                <div class="bg-teal-800 text-white text-center py-1.5 text-xs font-extrabold uppercase">Causa Directa 3</div>
+                <div class="p-3 text-xs text-slate-800 text-center flex-1 flex items-center justify-center">
+                  Gestión empírica de compras y cotizaciones ("al mejor postor") sin registro comparativo de proveedores habituales.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flechas hacia arriba -->
+          <div class="grid grid-cols-1 md:grid-cols-12">
+            <div class="hidden md:block md:col-span-2"></div>
+            <div class="md:col-span-10 grid grid-cols-6 text-center text-slate-600 font-black text-sm">
+              <span>↗</span><span>↖</span><span>↗</span><span>↖</span><span>↗</span><span>↖</span>
+            </div>
+          </div>
+
+          <!-- NIVEL 1: CAUSAS RAÍZ (NIVEL 2) -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-stretch">
+            <div class="md:col-span-2 rounded-xl bg-slate-100 border-2 border-slate-300 p-3 flex flex-col items-center justify-center text-center">
+              <span class="text-[11px] font-black uppercase text-slate-700 leading-tight">CAUSAS<br>RAÍZ<br><span class="font-semibold">(Nivel 2)</span></span>
+            </div>
+            <div class="md:col-span-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-2.5">
+              <div class="rounded-xl border border-slate-300 bg-white p-2.5 text-[11px] text-slate-700 text-center flex items-center justify-center shadow-sm">
+                <span><strong class="text-slate-900">C1.1:</strong> Falta de codificación técnica por gramaje, tipo de papel, formato, color de tinta y placa CTP.</span>
+              </div>
+              <div class="rounded-xl border border-slate-300 bg-white p-2.5 text-[11px] text-slate-700 text-center flex items-center justify-center shadow-sm">
+                <span><strong class="text-slate-900">C1.2:</strong> Separación física entre Almacén 1 (MP) y Almacén 2 (PT) sin Kardex digital unificado.</span>
+              </div>
+              <div class="rounded-xl border border-slate-300 bg-white p-2.5 text-[11px] text-slate-700 text-center flex items-center justify-center shadow-sm">
+                <span><strong class="text-slate-900">C2.1:</strong> Despacho de insumos a Preprensa, Prensa y Postprensa sin vales sistematizados por OT.</span>
+              </div>
+              <div class="rounded-xl border border-slate-300 bg-white p-2.5 text-[11px] text-slate-700 text-center flex items-center justify-center shadow-sm">
+                <span><strong class="text-slate-900">C2.2:</strong> Desconocimiento en tiempo real de saldos disponibles, faltantes y excedentes en almacén.</span>
+              </div>
+              <div class="rounded-xl border border-slate-300 bg-white p-2.5 text-[11px] text-slate-700 text-center flex items-center justify-center shadow-sm">
+                <span><strong class="text-slate-900">C3.1:</strong> Cotizaciones físicas no archivadas ni cruzadas con especificaciones de calidad, grosor y marca.</span>
+              </div>
+              <div class="rounded-xl border border-slate-300 bg-white p-2.5 text-[11px] text-slate-700 text-center flex items-center justify-center shadow-sm">
+                <span><strong class="text-slate-900">C3.2:</strong> Falta de enlace entre necesidades de reposición de almacén y órdenes de compra.</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SUBPESTAÑA 6: 1.5 FORMULACIÓN DEL PROBLEMA -->
+      <div id="cap1-sub-6" class="cap1-subview hidden">
+        <p class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6] mb-1">CAPÍTULO I · SECCIÓN 1.5</p>
+        <h2 class="text-3xl font-extrabold text-slate-900 mb-6">1.5 Formulación del Problema</h2>
+        <div class="bg-gradient-to-br from-[#073b6b] to-[#0b5da6] text-white rounded-2xl p-8 sm:p-10 shadow-lg">
+          <span class="inline-block px-3 py-1 rounded-full bg-white/10 text-[#ffd100] text-xs font-bold uppercase tracking-wider mb-4">
+            Pregunta General de Investigación
+          </span>
+          <p class="text-lg sm:text-xl font-medium leading-relaxed">
+            «¿De qué manera el análisis y diseño de un sistema informático de inventarios, desarrollado mediante los enfoques de análisis estructurado y análisis y diseño orientado a objetos con UML, permitirá mejorar la organización, el registro, el control y la consulta de las existencias de materias primas, insumos y productos terminados en Oruro Artes Gráficas SRL, facilitando el seguimiento de las entradas y salidas de materiales, la identificación de las cantidades disponibles y las necesidades de reposición, así como la organización de información sobre las cotizaciones y los proveedores habituales, con el propósito de apoyar la planificación de las adquisiciones y contribuir a una gestión de inventarios más ordenada y eficiente, de acuerdo con las necesidades operativas de la empresa?»
+          </p>
+        </div>
+      </div>
+
+      <!-- SUBPESTAÑA 7: 1.6 PROPÓSITO Y OBJETIVOS DEL ESTUDIO -->
+      <div id="cap1-sub-7" class="cap1-subview hidden">
+        <p class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6] mb-1">CAPÍTULO I · SECCIÓN 1.6</p>
+        <h2 class="text-3xl font-extrabold text-slate-900 mb-6">1.6 Propósito y Objetivos del Estudio</h2>
+
+        <div class="space-y-6">
+          <div class="bg-blue-50/70 border-l-4 border-[#0b5da6] rounded-r-xl p-6">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6]">1.6.1.1 Objetivo General</span>
+            <p class="text-slate-800 font-medium mt-2 leading-relaxed text-justify">
+              Realizar el análisis y diseño de un sistema informático de inventarios para Oruro Artes Gráficas SRL, aplicando los enfoques de Análisis Estructurado y Análisis y Diseño Orientado a Objetos mediante UML, con la finalidad de establecer una propuesta que permita organizar el registro, control y consulta de las existencias, gestionar los movimientos de materiales y facilitar la planificación de las reposiciones, considerando las necesidades operativas de la empresa.
+            </p>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <h3 class="text-lg font-bold text-slate-900 mb-4">1.6.1.2 Objetivos Específicos</h3>
+            <div class="space-y-3">
+              <div class="flex gap-4 p-4 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="w-7 h-7 rounded-full bg-[#0b5da6] text-white font-bold text-xs flex items-center justify-center flex-shrink-0">1</span>
+                <p class="text-sm text-slate-700 text-justify">Recopilar información sobre los procesos actuales de inventario de Oruro Artes Gráficas SRL mediante entrevistas, observación y revisión de la información disponible, con el propósito de identificar las necesidades de la empresa y los requerimientos del sistema propuesto.</p>
+              </div>
+              <div class="flex gap-4 p-4 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="w-7 h-7 rounded-full bg-[#0b5da6] text-white font-bold text-xs flex items-center justify-center flex-shrink-0">2</span>
+                <p class="text-sm text-slate-700 text-justify">Analizar los requerimientos funcionales y las necesidades de información del sistema, delimitando la gestión de materias primas, insumos, productos terminados, almacenes, entradas, salidas, existencias y reposiciones, así como la información complementaria de cotizaciones y proveedores habituales.</p>
+              </div>
+              <div class="flex gap-4 p-4 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="w-7 h-7 rounded-full bg-[#0b5da6] text-white font-bold text-xs flex items-center justify-center flex-shrink-0">3</span>
+                <p class="text-sm text-slate-700 text-justify">Modelar los procesos y flujos de información del sistema mediante Análisis Estructurado, elaborando el diagrama de contexto y los diagramas de flujo de datos correspondientes, con la identificación de los procesos, las entidades externas, los almacenes de datos y los flujos de información.</p>
+              </div>
+              <div class="flex gap-4 p-4 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="w-7 h-7 rounded-full bg-[#0b5da6] text-white font-bold text-xs flex items-center justify-center flex-shrink-0">4</span>
+                <p class="text-sm text-slate-700 text-justify">Diseñar el modelo conceptual del sistema mediante UML, elaborando el diagrama de clases con sus atributos, métodos, asociaciones, herencia, agregación o composición cuando corresponda y multiplicidades, de acuerdo con los requerimientos identificados.</p>
+              </div>
+              <div class="flex gap-4 p-4 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="w-7 h-7 rounded-full bg-[#0b5da6] text-white font-bold text-xs flex items-center justify-center flex-shrink-0">5</span>
+                <p class="text-sm text-slate-700 text-justify">Integrar los resultados del análisis y diseño en una propuesta coherente del sistema de inventarios, incluyendo el modelo de datos preliminar y la representación de la interfaz del usuario, de manera que los elementos propuestos respondan a las necesidades identificadas y sirvan como base para una futura implementación informática.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBPESTAÑA 8: 1.7 MÉTODO, MEDIOS E INSTRUMENTOS DE INVESTIGACIÓN -->
+      <div id="cap1-sub-8" class="cap1-subview hidden">
+        <p class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6] mb-1">CAPÍTULO I · SECCIÓN 1.7</p>
+        <h2 class="text-3xl font-extrabold text-slate-900 mb-6">1.7 Método, Medios e Instrumentos de Investigación</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-xs font-extrabold uppercase text-[#0b5da6]">1.7.1 Método</span>
+            <h3 class="text-lg font-bold text-slate-900 mt-1 mb-3">Enfoque Sistémico y Analítico-Sintético</h3>
+            <ul class="text-sm text-slate-700 space-y-2.5">
+              <li><strong>• Enfoque sistémico:</strong> comprende la gestión de inventarios como un conjunto de elementos relacionados entre sí (materiales, almacenes, proveedores, entradas y salidas).</li>
+              <li><strong>• Método analítico:</strong> examina por separado el registro de materiales, control de cantidades, movimientos, reposición y cotizaciones.</li>
+              <li><strong>• Método sintético:</strong> integra la información obtenida para establecer una visión general del sistema propuesto.</li>
+            </ul>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-xs font-extrabold uppercase text-[#e62e25]">1.7.2 Medios de investigación</span>
+            <h3 class="text-lg font-bold text-slate-900 mt-1 mb-3">Recopilación en Campo</h3>
+            <ul class="text-sm text-slate-700 space-y-2.5">
+              <li><strong>• Observación directa:</strong> verificación de actividades de almacenamiento y utilización de materias primas e insumos en Almacenes 1 y 2.</li>
+              <li><strong>• Análisis documental:</strong> revisión de registros de materiales, órdenes de trabajo, comprobantes de entrada/salida, cotizaciones y facturas.</li>
+              <li><strong>• Consulta al personal:</strong> entrevistas con encargados de almacenamiento, adquisición y utilización de materiales.</li>
+            </ul>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-xs font-extrabold uppercase text-amber-600">1.7.3 Instrumentos</span>
+            <h3 class="text-lg font-bold text-slate-900 mt-1 mb-3">Registro Estructurado</h3>
+            <ul class="text-sm text-slate-700 space-y-2.5">
+              <li><strong>• Guía de entrevista:</strong> dirigida a Jefatura, almacén, contabilidad, diseñadores gráficos y operarios.</li>
+              <li><strong>• Guía de observación:</strong> registra la identificación de productos, recepción de insumos, salidas y consulta de disponibilidad.</li>
+              <li><strong>• Ficha de revisión documental:</strong> extrae código del material, descripción, unidad de medida, cantidad, fecha, tipo de operación y proveedor.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBPESTAÑA 9: 1.8 PLANIFICACIÓN DE ACTIVIDADES (2 PESTAÑAS: TEORÍA + TABLERO NATIVO) -->
+      <div id="cap1-sub-9" class="cap1-subview hidden">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <p class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6] mb-1">CAPÍTULO I · SECCIÓN 1.8</p>
+            <h2 class="text-3xl font-extrabold text-slate-900">1.8 Planificación de actividades</h2>
+          </div>
+          <!-- Selector de las 2 pestañas internas de Planificación -->
+          <div class="inline-flex p-1 rounded-xl bg-slate-100 border border-slate-200 self-start">
+            <button id="plan-subbtn-1" onclick="switchPlanSubtab(1)" class="px-4 py-2 rounded-lg text-xs font-bold bg-[#0b5da6] text-white shadow-sm transition">
+              1. Fundamentación y Teoría (Documento)
+            </button>
+            <button id="plan-subbtn-2" onclick="switchPlanSubtab(2)" class="px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition">
+              2. Cronograma Detallado y Gantt (9 Fases)
+            </button>
+          </div>
+        </div>
+
+        <!-- PESTAÑA INTERNA 1 DE PLANIFICACIÓN: TEORÍA DEL DOCUMENTO -->
+        <div id="plan-subview-1" class="space-y-6">
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 sm:p-8 text-slate-700 leading-relaxed text-justify space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-200">
+              <span class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6]">Marco Descriptivo del Cronograma (Sección 1.8 del Informe)</span>
+              <span class="px-3 py-1 rounded-full bg-blue-100 text-[#0b5da6] font-bold text-xs">Periodo: 02 de noviembre al 06 de diciembre de 2026</span>
+            </div>
+            <p>
+              La planificación de actividades establece las fases, tareas y fechas previstas para el desarrollo del <strong>Sistema Informático de Inventarios para Oruro Artes Gráficas SRL</strong>, desde el <strong>2 de noviembre hasta el 6 de diciembre de 2026</strong>. El cronograma se organiza de manera secuencial, comenzando con la recopilación y verificación de información de la empresa, seguida de la elaboración de la matriz FODA, el análisis del problema y la definición de requerimientos.
+            </p>
+            <p>
+              Posteriormente, se desarrollará el <strong>análisis estructurado</strong> mediante diagramas de contexto y flujo de datos, así como el <strong>diseño orientado a objetos mediante UML</strong> y el modelo de datos preliminar.
+            </p>
+            <p>
+              Una vez revisada la coherencia de los modelos, se procederá al desarrollo de la aplicación web con <strong>React</strong>, la implementación del backend y la integración con la base de datos. Finalmente, se realizarán las pruebas y correcciones, se organizará la documentación y se prepararán las diapositivas para la exposición. Esta planificación permitirá distribuir el trabajo por etapas, establecer resultados esperados y realizar un seguimiento ordenado del avance del proyecto.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+            <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+              <span class="font-extrabold text-[#0b5da6] uppercase block mb-1">Etapa I · Diagnóstico (02/11 – 08/11)</span>
+              <p class="text-slate-600">Fases 1 y 2: Recopilación de información en Oruro Artes Gráficas SRL, análisis del problema, matriz FODA y lista de requerimientos.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+              <span class="font-extrabold text-purple-700 uppercase block mb-1">Etapa II · Modelado (09/11 – 22/11)</span>
+              <p class="text-slate-600">Fases 3, 4 y 5: Diagrama de contexto, DFD por niveles, Diagrama de clases UML, modelo de datos preliminar y validación de coherencia.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+              <span class="font-extrabold text-emerald-700 uppercase block mb-1">Etapa III · Construcción (23/11 – 06/12)</span>
+              <p class="text-slate-600">Fases 6, 7, 8 y 9: Desarrollo con React + Backend + BD, pruebas de entradas/salidas, documentación final y exposición.</p>
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button onclick="switchPlanSubtab(2)" class="px-5 py-2.5 rounded-lg bg-[#0b5da6] hover:bg-[#094780] text-white font-bold text-xs shadow transition">
+              Ver Cuadro Detallado de 9 Fases y Diagrama de Gantt →
+            </button>
+          </div>
+        </div>
+
+        <!-- PESTAÑA INTERNA 2 DE PLANIFICACIÓN: TABLERO NATIVO COMPLETO (9 FASES + GANTT) -->
+        <div id="plan-subview-2" class="hidden space-y-6">
+          
+          <!-- Encabezado Azul Superior -->
+          <div class="rounded-xl bg-gradient-to-r from-[#0b5da6] to-[#1d70b8] text-white p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow">
+            <div>
+              <h3 class="text-xl font-black tracking-tight">1.8 Planificación de actividades</h3>
+              <p class="text-xs text-blue-100">Sistema Informático de Inventarios — Oruro Artes Gráficas SRL</p>
+            </div>
+            <div class="bg-white/15 border border-white/25 rounded-lg px-4 py-2 text-xs">
+              <span class="text-blue-100 block text-[10px] uppercase font-bold">📅 Periodo de ejecución:</span>
+              <strong class="text-white text-sm">02 de noviembre al 06 de diciembre de 2026</strong>
+            </div>
+          </div>
+
+          <!-- Tabla Detallada de las 9 Fases y Subactividades -->
+          <div class="border border-slate-200 rounded-xl overflow-x-auto bg-white shadow-sm">
+            <table class="w-full text-left border-collapse text-xs min-w-[780px]">
               <thead>
-                <tr class="bg-slate-100 text-slate-800 border-b border-slate-200">
-                  <th class="py-3.5 px-4 font-bold">Fase / Tarea del Proyecto</th>
-                  <th class="py-3.5 px-3 text-center font-bold">Sem 1–2 Oct</th>
-                  <th class="py-3.5 px-3 text-center font-bold">27–29 Oct 2026</th>
-                  <th class="py-3.5 px-3 text-center font-bold">Noviembre 2026</th>
-                  <th class="py-3.5 px-3 text-center font-bold">Diciembre 2026</th>
+                <tr class="bg-slate-800 text-white uppercase text-[11px]">
+                  <th class="py-2.5 px-3 w-44">Fase</th>
+                  <th class="py-2.5 px-2 w-12 text-center">N.º</th>
+                  <th class="py-2.5 px-3">Actividades principales</th>
+                  <th class="py-2.5 px-2.5 w-24 text-center">Inicio</th>
+                  <th class="py-2.5 px-2.5 w-24 text-center">Fin</th>
+                  <th class="py-2.5 px-3 w-48">Entregable</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-slate-200">
-                <tr>
-                  <td class="py-3.5 px-4 font-medium text-slate-800">Fase 1: Levantamiento de información y diagnóstico en Oruro Artes Gráficas S.R.L.</td>
-                  <td class="py-3.5 px-3"><div class="h-3 bg-oag-blue rounded-full"></div></td>
-                  <td class="py-3.5 px-3"></td>
-                  <td class="py-3.5 px-3"></td>
-                  <td class="py-3.5 px-3"></td>
+              <tbody class="divide-y divide-slate-200 text-slate-700">
+                <!-- Fase 1 -->
+                <tr class="bg-blue-50/40">
+                  <td class="p-3 font-bold text-white bg-[#1e73be] align-middle">1. Recopilación de información de la empresa</td>
+                  <td class="p-2 text-center font-mono text-[11px] leading-5">1.1<br>1.2<br>1.3<br>1.4</td>
+                  <td class="p-2.5 leading-5">
+                    • Verificar y organizar la información de la empresa.<br>
+                    • Identificar la gestión actual de inventarios, materias primas, insumos, productos terminados y almacenes.<br>
+                    • Recopilar información mediante entrevistas, observación y revisión de documentos.<br>
+                    • Identificar necesidades de los usuarios y problemas de control de existencias.
+                  </td>
+                  <td class="p-2 text-center font-mono text-[11px]">02/11/2026</td>
+                  <td class="p-2 text-center font-mono text-[11px]">05/11/2026</td>
+                  <td class="p-2.5 font-medium text-slate-800">Diagnóstico de la situación actual y necesidades de la empresa.</td>
                 </tr>
-                <tr>
-                  <td class="py-3.5 px-4 font-medium text-slate-800">Fase 2: Elaboración Parte I (Generalidades y Marco Teórico) y Publicación del Sitio Web</td>
-                  <td class="py-3.5 px-3"><div class="h-3 bg-oag-blue/60 rounded-full w-1/2 ml-auto"></div></td>
-                  <td class="py-3.5 px-3"><div class="h-3 bg-oag-red rounded-full"></div></td>
-                  <td class="py-3.5 px-3"></td>
-                  <td class="py-3.5 px-3"></td>
+                <!-- Fase 2 -->
+                <tr class="bg-indigo-50/40">
+                  <td class="p-3 font-bold text-white bg-[#5e5ce6] align-middle">2. Análisis del problema y matriz FODA</td>
+                  <td class="p-2 text-center font-mono text-[11px] leading-5">2.1<br>2.2<br>2.3<br>2.4</td>
+                  <td class="p-2.5 leading-5">
+                    • Elaborar la matriz FODA.<br>
+                    • Analizar el problema central, causas y efectos.<br>
+                    • Definir objetivos y delimitar el alcance del sistema.<br>
+                    • Establecer requerimientos funcionales y no funcionales.
+                  </td>
+                  <td class="p-2 text-center font-mono text-[11px]">06/11/2026</td>
+                  <td class="p-2 text-center font-mono text-[11px]">08/11/2026</td>
+                  <td class="p-2.5 font-medium text-slate-800">Matriz FODA, análisis del problema y lista de requerimientos.</td>
                 </tr>
-                <tr>
-                  <td class="py-3.5 px-4 font-medium text-slate-800">Fase 3: Modelado Parte II (Análisis y Diseño Estructurado: DFD, Diccionario y DER)</td>
-                  <td class="py-3.5 px-3"></td>
-                  <td class="py-3.5 px-3"></td>
-                  <td class="py-3.5 px-3"><div class="h-3 bg-oag-yellow rounded-full"></div></td>
-                  <td class="py-3.5 px-3"></td>
+                <!-- Fase 3 -->
+                <tr class="bg-purple-50/40">
+                  <td class="p-3 font-bold text-white bg-[#a855f7] align-middle">3. Análisis estructurado</td>
+                  <td class="p-2 text-center font-mono text-[11px] leading-5">3.1<br>3.2<br>3.3<br>3.4<br>3.5</td>
+                  <td class="p-2.5 leading-5">
+                    • Identificar entidades externas, procesos y flujos de información.<br>
+                    • Elaborar diagrama de contexto.<br>
+                    • Elaborar diagramas de flujo de datos (DFD).<br>
+                    • Identificar entradas, salidas, procesos y almacenes de datos.<br>
+                    • Revisar diagramas según requerimientos.
+                  </td>
+                  <td class="p-2 text-center font-mono text-[11px]">09/11/2026</td>
+                  <td class="p-2 text-center font-mono text-[11px]">15/11/2026</td>
+                  <td class="p-2.5 font-medium text-slate-800">Modelos del análisis estructurado del sistema de inventarios.</td>
                 </tr>
-                <tr>
-                  <td class="py-3.5 px-4 font-medium text-slate-800">Fase 4: Modelado Parte III (Orientado a Objetos con UML, Prototipos y Defensa Final)</td>
-                  <td class="py-3.5 px-3"></td>
-                  <td class="py-3.5 px-3"></td>
-                  <td class="py-3.5 px-3"></td>
-                  <td class="py-3.5 px-3"><div class="h-3 bg-emerald-500 rounded-full"></div></td>
+                <!-- Fase 4 -->
+                <tr class="bg-violet-50/40">
+                  <td class="p-3 font-bold text-white bg-[#7e22ce] align-middle">4. Diseño orientado a objetos y UML</td>
+                  <td class="p-2 text-center font-mono text-[11px] leading-5">4.1<br>4.2<br>4.3<br>4.4<br>4.5</td>
+                  <td class="p-2.5 leading-5">
+                    • Identificar las clases principales del sistema.<br>
+                    • Definir atributos, métodos, relaciones y multiplicidades.<br>
+                    • Elaborar diagrama de clases UML.<br>
+                    • Diseñar modelo de datos preliminar.<br>
+                    • Verificar clases y relaciones con los procesos de inventario.
+                  </td>
+                  <td class="p-2 text-center font-mono text-[11px]">16/11/2026</td>
+                  <td class="p-2 text-center font-mono text-[11px]">20/11/2026</td>
+                  <td class="p-2.5 font-medium text-slate-800">Diagrama de clases UML y modelo de datos preliminar.</td>
+                </tr>
+                <!-- Fase 5 -->
+                <tr class="bg-pink-50/40">
+                  <td class="p-3 font-bold text-white bg-[#ec4899] align-middle">5. Revisión de coherencia y lógica del diseño</td>
+                  <td class="p-2 text-center font-mono text-[11px] leading-5">5.1<br>5.2<br>5.3<br>5.4</td>
+                  <td class="p-2.5 leading-5">
+                    • Verificar coherencia entre requerimientos, DFD y UML.<br>
+                    • Comprobar que no existan contradicciones.<br>
+                    • Revisar relaciones, atributos, métodos y reglas de inventario.<br>
+                    • Corregir errores y ajustar modelos.
+                  </td>
+                  <td class="p-2 text-center font-mono text-[11px]">21/11/2026</td>
+                  <td class="p-2 text-center font-mono text-[11px]">22/11/2026</td>
+                  <td class="p-2.5 font-medium text-slate-800">Modelos revisados y diseño lógico coherente.</td>
+                </tr>
+                <!-- Fase 6 -->
+                <tr class="bg-emerald-50/40">
+                  <td class="p-3 font-bold text-white bg-[#16a34a] align-middle">6. Desarrollo del sistema web</td>
+                  <td class="p-2 text-center font-mono text-[11px] leading-5">6.1<br>6.2<br>6.3<br>6.4<br>6.5<br>6.6<br>6.7</td>
+                  <td class="p-2.5 leading-5">
+                    • Crear estructura del proyecto con React.<br>
+                    • Diseñar interfaz moderna, intuitiva y adaptable.<br>
+                    • Implementar pantallas y módulos principales.<br>
+                    • Desarrollar backend y API.<br>
+                    • Preparar base de datos e integrar frontend y backend.<br>
+                    • Implementar operaciones de inventario y alertas.<br>
+                    • Incorporar gestión de proveedores y cotizaciones (si aplica).
+                  </td>
+                  <td class="p-2 text-center font-mono text-[11px]">23/11/2026</td>
+                  <td class="p-2 text-center font-mono text-[11px]">29/11/2026</td>
+                  <td class="p-2.5 font-medium text-slate-800">Versión funcional inicial del sistema web integrado.</td>
+                </tr>
+                <!-- Fase 7 -->
+                <tr class="bg-orange-50/40">
+                  <td class="p-3 font-bold text-white bg-[#f97316] align-middle">7. Pruebas y validación</td>
+                  <td class="p-2 text-center font-mono text-[11px] leading-5">7.1<br>7.2<br>7.3<br>7.4<br>7.5</td>
+                  <td class="p-2.5 leading-5">
+                    • Probar registro, modificación y consulta de materiales.<br>
+                    • Verificar entradas, salidas y actualización de existencias.<br>
+                    • Comprobar comunicación entre React, backend y BD.<br>
+                    • Revisar validación de formularios y mensajes de error.<br>
+                    • Registrar errores y realizar correcciones.
+                  </td>
+                  <td class="p-2 text-center font-mono text-[11px]">30/11/2026</td>
+                  <td class="p-2 text-center font-mono text-[11px]">02/12/2026</td>
+                  <td class="p-2.5 font-medium text-slate-800">Resultados de pruebas y versión corregida del sistema.</td>
+                </tr>
+                <!-- Fase 8 -->
+                <tr class="bg-slate-100/70">
+                  <td class="p-3 font-bold text-white bg-[#334155] align-middle">8. Revisión final y documentación</td>
+                  <td class="p-2 text-center font-mono text-[11px] leading-5">8.1<br>8.2<br>8.3<br>8.4</td>
+                  <td class="p-2.5 leading-5">
+                    • Revisar funcionamiento general del sistema.<br>
+                    • Organizar diagramas, capturas y evidencias.<br>
+                    • Completar y corregir documentación del proyecto.<br>
+                    • Verificar correspondencia entre objetivos, requerimientos, modelos y sistema.
+                  </td>
+                  <td class="p-2 text-center font-mono text-[11px]">03/12/2026</td>
+                  <td class="p-2 text-center font-mono text-[11px]">04/12/2026</td>
+                  <td class="p-2.5 font-medium text-slate-800">Documentación revisada y evidencias del proyecto.</td>
+                </tr>
+                <!-- Fase 9 -->
+                <tr class="bg-cyan-50/40">
+                  <td class="p-3 font-bold text-white bg-[#0891b2] align-middle">9. Elaboración de diapositivas y preparación de la exposición</td>
+                  <td class="p-2 text-center font-mono text-[11px] leading-5">9.1<br>9.2<br>9.3<br>9.4<br>9.5</td>
+                  <td class="p-2.5 leading-5">
+                    • Preparar diapositivas de presentación.<br>
+                    • Resumir problema, objetivos, FODA y metodología.<br>
+                    • Incluir diagramas, UML y pantallas principales.<br>
+                    • Mostrar pruebas y resultados obtenidos.<br>
+                    • Revisar presentación y preparar explicación oral.
+                  </td>
+                  <td class="p-2 text-center font-mono text-[11px]">05/12/2026</td>
+                  <td class="p-2 text-center font-mono text-[11px]">06/12/2026</td>
+                  <td class="p-2.5 font-medium text-slate-800">Diapositivas y material de apoyo para la exposición final.</td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </div>
 
-
-        <!-- CONTROLES DE NAVEGACIÓN INFERIOR ENTRE SUBPESTAÑAS INDEPENDIENTES (ANTERIOR / SIGUIENTE) -->
-        <div class="mt-6 flex items-center justify-between bg-white border border-slate-200 rounded-xl px-5 py-3.5 shadow-sm">
-          <button id="p1-prev-btn" onclick="changePart1Step(-1)" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors flex items-center space-x-1.5">
-            <span>←</span>
-            <span>Apartado anterior</span>
-          </button>
-          <button onclick="openPart1Sub(1)" class="text-xs font-bold text-oag-blue hover:underline">
-            Ver Tabla de Contenido
-          </button>
-          <button id="p1-next-btn" onclick="changePart1Step(1)" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-oag-blue text-white hover:bg-oag-dark transition-colors flex items-center space-x-1.5">
-            <span>Siguiente apartado</span>
-            <span>→</span>
-          </button>
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- =======================================================================
-         VISTA 3: II. ANÁLISIS Y DISEÑO ESTRUCTURADO (INTERFAZ PROPIA CON SIDEBAR TÉCNICO)
-         ======================================================================= -->
-    <section id="tab-parte2" class="tab-fade hidden py-10 sm:py-12 flex-grow">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6">
-
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 pb-4 border-b border-slate-200">
-          <div>
-            <span class="text-oag-blue font-bold text-xs uppercase tracking-wider block mb-1">
-              MÓDULO II · PARADIGMA DE PROCESOS Y FLUJOS DE INFORMACIÓN
-            </span>
-            <h2 class="font-display font-black text-3xl sm:text-4xl text-slate-900">
-              Análisis y Diseño Estructurado
-            </h2>
-          </div>
-        </div>
-
-        <!-- Layout de 2 Columnas exclusivo para el Módulo II: Sidebar Izquierdo + Lienzo Técnico Blueprint -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-          <!-- Barra Lateral Izquierda (4 columnas) -->
-          <div class="lg:col-span-4 space-y-2">
-            <div class="text-xs font-bold uppercase tracking-wider text-slate-400 px-2 mb-2">
-              Secuencia de Modelado Estructurado
-            </div>
-
-            <button id="p2-nav-1" onclick="showPart2Sub(1)" class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-oag-blue text-white border-oag-blue shadow-sm">
-              <div>
-                <span class="text-[11px] font-bold uppercase opacity-80 block">Etapa 2.1</span>
-                <span class="font-bold text-sm">Requerimientos del Sistema</span>
-              </div>
-              <span class="text-xs font-bold">→</span>
-            </button>
-
-            <button id="p2-nav-2" onclick="showPart2Sub(2)" class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-              <div>
-                <span class="text-[11px] font-bold uppercase text-slate-400 block">Etapa 2.2</span>
-                <span class="font-bold text-sm">Diagrama de Contexto (Nivel 0)</span>
-              </div>
-              <span class="text-xs text-slate-400">→</span>
-            </button>
-
-            <button id="p2-nav-3" onclick="showPart2Sub(3)" class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-              <div>
-                <span class="text-[11px] font-bold uppercase text-slate-400 block">Etapa 2.3</span>
-                <span class="font-bold text-sm">DFD por Niveles (Nivel 1 y 2)</span>
-              </div>
-              <span class="text-xs text-slate-400">→</span>
-            </button>
-<!--
-            <button id="p2-nav-4" onclick="showPart2Sub(4)" class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-              <div>
-                <span class="text-[11px] font-bold uppercase text-slate-400 block">Etapa 2.4</span>
-                <span class="font-bold text-sm">Diccionario de Datos</span>
-              </div>
-              <span class="text-xs text-slate-400">→</span>
-            </button>
-
-            <button id="p2-nav-5" onclick="showPart2Sub(5)" class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-              <div>
-                <span class="text-[11px] font-bold uppercase text-slate-400 block">Etapa 2.5</span>
-                <span class="font-bold text-sm">Especificación de Procesos</span>
-              </div>
-              <span class="text-xs text-slate-400">→</span>
-            </button>
-
-            <button id="p2-nav-6" onclick="showPart2Sub(6)" class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-              <div>
-                <span class="text-[11px] font-bold uppercase text-slate-400 block">Etapa 2.6</span>
-                <span class="font-bold text-sm">Modelo Entidad-Relación (DER)</span>
-              </div>
-              <span class="text-xs text-slate-400">→</span>
-            </button>
-          </div>
--->
-          <!-- Panel de Lienzo Técnico Derecho (8 columnas) -->
-          <div class="lg:col-span-8">
-            <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
-              
-              <!-- Barra Superior del Visor Técnico -->
-              <div class="bg-slate-900 text-white px-5 py-3 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <span class="w-2.5 h-2.5 rounded-full bg-oag-red"></span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-oag-yellow"></span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-                  <span id="p2-canvas-badge" class="ml-2 text-xs font-mono text-slate-300">
-                    ARTEFACTO: 2.1_REQUERIMIENTOS_INVENTARIO
-                  </span>
-                </div>
-                <span class="text-[11px] font-semibold text-oag-yellow">
-                  Oruro Artes Gráficas S.R.L.
-                </span>
-              </div>
-
-              <!-- Cuerpo Dinámico del Lienzo con Cuadrícula Blueprint -->
-              <div class="p-6">
-                <h3 id="p2-title" class="font-display font-bold text-xl text-slate-900 mb-1">
-                  2.1 Especificación de Requerimientos del Sistema
-                </h3>
-                <p id="p2-desc" class="text-sm text-slate-600 mb-5">
-                  Delimitación de requerimientos funcionales y no funcionales para el control de los Almacenes 1 y 2, entradas, salidas, stock mínimo y cotizaciones.
-                </p>
-
-                <!-- CONTENEDOR CORREGIDO CON id="p2-content-area" PARA MOSTRAR LAS IMÁGENES AUTOMÁTICAMENTE -->
-                <div id="p2-content-area" class="blueprint-grid w-full min-h-[320px] border-2 border-dashed border-oag-blue/30 rounded-xl flex flex-col items-center justify-center p-8 text-center">
-                  <div class="w-14 h-14 rounded-2xl bg-oag-blue/10 text-oag-blue flex items-center justify-center mb-3">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                  </div>
-                  <p class="font-bold text-sm text-slate-700">
-                    Espacio reservado para la tabla o documento de Requerimientos
-                  </p>
-                  <p class="text-xs text-slate-500 mt-1 max-w-md">
-                    Las imágenes definidas en <code>imageSrc</code> aparecerán aquí automáticamente al hacer clic en cada etapa.
-                  </p>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- =======================================================================
-         VISTA 4: III. ANÁLISIS Y DISEÑO ORIENTADO A OBJETOS (INTERFAZ PROPIA UML)
-         ======================================================================= -->
-   <section id="tab-parte2" class="tab-fade hidden py-10 sm:py-12 flex-grow">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6">
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 pb-4 border-b border-slate-200">
-          <div>
-            <span class="text-oag-blue font-bold text-xs uppercase tracking-wider block mb-1">
-              MÓDULO II · PARADIGMA DE PROCESOS Y FLUJOS DE INFORMACIÓN
-            </span>
-            <h2 class="font-display font-black text-3xl sm:text-4xl text-slate-900">
-              Análisis y Diseño Estructurado
-            </h2>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div class="lg:col-span-4 space-y-2">
-            <button id="p2-nav-1" onclick="showPart2Sub(1)" class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-oag-blue text-white border-oag-blue shadow-sm">
-              <span class="font-bold text-sm">Requerimientos del Sistema</span>
-            </button>
-            <button id="p2-nav-2" onclick="showPart2Sub(2)" class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-              <span class="font-bold text-sm">Diagrama de Contexto (Nivel 0)</span>
-            </button>
-            <button id="p2-nav-3" onclick="showPart2Sub(3)" class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-              <span class="font-bold text-sm">DFD por Niveles (Nivel 1 y 2)</span>
-            </button>
-            <button id="p2-nav-4" onclick="showPart2Sub(4)" class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-              <span class="font-bold text-sm">Diccionario de Datos</span>
-            </button>
-            <button id="p2-nav-5" onclick="showPart2Sub(5)" class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-              <span class="font-bold text-sm">Especificación de Procesos</span>
-            </button>
-            <button id="p2-nav-6" onclick="showPart2Sub(6)" class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-              <span class="font-bold text-sm">Modelo Entidad-Relación (DER)</span>
-            </button>
-          </div>
-
-          <div class="lg:col-span-8">
-            <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
-              <div class="bg-slate-900 text-white px-5 py-3 flex items-center justify-between">
-                <span id="p2-canvas-badge" class="text-xs font-mono text-slate-300">ARTEFACTO: 2.1_REQUERIMIENTOS_INVENTARIO</span>
-              </div>
-              <div class="p-6">
-                <h3 id="p2-title" class="font-display font-bold text-xl text-slate-900 mb-1">2.1 Especificación de Requerimientos</h3>
-                <p id="p2-desc" class="text-sm text-slate-600 mb-5">Descripción de requerimientos...</p>
-                <div id="p2-content-area" class="blueprint-grid w-full min-h-[320px] border-2 border-dashed border-oag-blue/30 rounded-xl flex flex-col items-center justify-center p-8 text-center">
-                  <p class="font-bold text-sm text-slate-700">Espacio reservado para contenido</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- VISTA 4: MÓDULO III (ORIENTADO A OBJETOS - UML) -->
-    <section id="tab-parte3" class="tab-fade hidden py-10 sm:py-12 flex-grow">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6">
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6 pb-4 border-b border-slate-200">
-          <div>
-            <span class="text-oag-red font-bold text-xs uppercase tracking-wider block mb-1">
-              MÓDULO III · MODELADO CONCEPTUAL Y COMPORTAMIENTO CON UML 2.5
-            </span>
-            <h2 class="font-display font-black text-3xl sm:text-4xl text-slate-900">
-              Análisis y Diseño Orientado a Objetos
-            </h2>
-          </div>
-        </div>
-
-        <!-- Selector de tarjetas UML -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
-          <button id="p3-card-1" onclick="showPart3Sub(1)" class="p-3.5 rounded-xl border text-left transition-all bg-oag-dark text-white border-oag-dark shadow-sm">
-            <span class="text-[10px] font-bold uppercase text-oag-yellow block">UML 01</span>
-            <span class="font-bold text-xs sm:text-sm block mt-0.5">Casos de Uso</span>
-          </button>
-          <button id="p3-card-2" onclick="showPart3Sub(2)" class="p-3.5 rounded-xl border text-left transition-all bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block">UML 02</span>
-            <span class="font-bold text-xs sm:text-sm block mt-0.5">Diag. de Clases</span>
-          </button>
-          <button id="p3-card-3" onclick="showPart3Sub(3)" class="p-3.5 rounded-xl border text-left transition-all bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block">UML 03</span>
-            <span class="font-bold text-xs sm:text-sm block mt-0.5">Secuencia</span>
-          </button>
-          <button id="p3-card-4" onclick="showPart3Sub(4)" class="p-3.5 rounded-xl border text-left transition-all bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block">UML 04</span>
-            <span class="font-bold text-xs sm:text-sm block mt-0.5">Actividades</span>
-          </button>
-          <button id="p3-card-5" onclick="showPart3Sub(5)" class="p-3.5 rounded-xl border text-left transition-all bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block">UML 05</span>
-            <span class="font-bold text-xs sm:text-sm block mt-0.5">Estados</span>
-          </button>
-          <button id="p3-card-6" onclick="showPart3Sub(6)" class="p-3.5 rounded-xl border text-left transition-all bg-white text-slate-700 border-slate-200 hover:border-oag-blue">
-            <span class="text-[10px] font-bold uppercase text-slate-400 block">UML 06</span>
-            <span class="font-bold text-xs sm:text-sm block mt-0.5">Componentes</span>
-          </button>
-        </div>
-
-        <!-- Visor UML -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-          <div class="lg:col-span-8">
+          <!-- Diagrama de Gantt Visual (Noviembre - Diciembre 2026) -->
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
             <div class="flex items-center justify-between mb-3">
-              <h3 id="p3-title" class="font-display font-bold text-xl text-slate-900">
-                Diagrama de Casos de Uso del Sistema
-              </h3>
-              <span id="p3-badge" class="text-xs font-bold px-2.5 py-1 rounded bg-slate-100 text-slate-700">
-                Vista Funcional / Actores
-              </span>
+              <h4 class="text-sm font-extrabold uppercase tracking-wider text-slate-800">Cronograma Visual (Diagrama de Gantt)</h4>
+              <span class="text-xs font-bold text-[#0b5da6]">Noviembre 2026 — Diciembre 2026</span>
             </div>
-            <p id="p3-desc" class="text-sm text-slate-600 mb-4">
-              Representación de las interacciones...
-            </p>
-
-            <!-- Contenedor dinámico de imagen UML -->
-            <div id="p3-image-container" class="w-full min-h-[310px] bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-4 text-center">
-              <!-- Aquí se inyectará la imagen automáticamente -->
+            <div class="space-y-2.5 text-xs">
+              <div class="grid grid-cols-12 items-center gap-2">
+                <span class="col-span-3 font-bold text-slate-700 truncate">F1. Investigación</span>
+                <div class="col-span-9 bg-slate-100 rounded-full h-5 relative flex items-center">
+                  <div class="bg-[#1e73be] text-white text-[10px] font-bold h-5 rounded-full flex items-center justify-center shadow-sm" style="margin-left: 0%; width: 11.5%;">02/11–05/11</div>
+                </div>
+              </div>
+              <div class="grid grid-cols-12 items-center gap-2">
+                <span class="col-span-3 font-bold text-slate-700 truncate">F2. Análisis y FODA</span>
+                <div class="col-span-9 bg-slate-100 rounded-full h-5 relative flex items-center">
+                  <div class="bg-[#5e5ce6] text-white text-[10px] font-bold h-5 rounded-full flex items-center justify-center shadow-sm" style="margin-left: 11.5%; width: 9%;">06–08/11</div>
+                </div>
+              </div>
+              <div class="grid grid-cols-12 items-center gap-2">
+                <span class="col-span-3 font-bold text-slate-700 truncate">F3. Análisis Estructurado</span>
+                <div class="col-span-9 bg-slate-100 rounded-full h-5 relative flex items-center">
+                  <div class="bg-[#a855f7] text-white text-[10px] font-bold h-5 rounded-full flex items-center justify-center shadow-sm" style="margin-left: 20.5%; width: 20%;">09/11 – 15/11</div>
+                </div>
+              </div>
+              <div class="grid grid-cols-12 items-center gap-2">
+                <span class="col-span-3 font-bold text-slate-700 truncate">F4. Diseño OO y UML</span>
+                <div class="col-span-9 bg-slate-100 rounded-full h-5 relative flex items-center">
+                  <div class="bg-[#7e22ce] text-white text-[10px] font-bold h-5 rounded-full flex items-center justify-center shadow-sm" style="margin-left: 40.5%; width: 14.5%;">16/11 – 20/11</div>
+                </div>
+              </div>
+              <div class="grid grid-cols-12 items-center gap-2">
+                <span class="col-span-3 font-bold text-slate-700 truncate">F5. Revisión Coherencia</span>
+                <div class="col-span-9 bg-slate-100 rounded-full h-5 relative flex items-center">
+                  <div class="bg-[#ec4899] text-white text-[10px] font-bold h-5 rounded-full flex items-center justify-center shadow-sm" style="margin-left: 55%; width: 7%;">21–22</div>
+                </div>
+              </div>
+              <div class="grid grid-cols-12 items-center gap-2">
+                <span class="col-span-3 font-bold text-slate-700 truncate">F6. Desarrollo Web React</span>
+                <div class="col-span-9 bg-slate-100 rounded-full h-5 relative flex items-center">
+                  <div class="bg-[#16a34a] text-white text-[10px] font-bold h-5 rounded-full flex items-center justify-center shadow-sm" style="margin-left: 62%; width: 20%;">23/11 – 29/11</div>
+                </div>
+              </div>
+              <div class="grid grid-cols-12 items-center gap-2">
+                <span class="col-span-3 font-bold text-slate-700 truncate">F7. Pruebas y Validación</span>
+                <div class="col-span-9 bg-slate-100 rounded-full h-5 relative flex items-center">
+                  <div class="bg-[#f97316] text-white text-[10px] font-bold h-5 rounded-full flex items-center justify-center shadow-sm" style="margin-left: 82%; width: 8%;">30–02</div>
+                </div>
+              </div>
+              <div class="grid grid-cols-12 items-center gap-2">
+                <span class="col-span-3 font-bold text-slate-700 truncate">F8. Documentación Final</span>
+                <div class="col-span-9 bg-slate-100 rounded-full h-5 relative flex items-center">
+                  <div class="bg-[#334155] text-white text-[10px] font-bold h-5 rounded-full flex items-center justify-center shadow-sm" style="margin-left: 90%; width: 5%;">03–04</div>
+                </div>
+              </div>
+              <div class="grid grid-cols-12 items-center gap-2">
+                <span class="col-span-3 font-bold text-slate-700 truncate">F9. Exposición Final</span>
+                <div class="col-span-9 bg-slate-100 rounded-full h-5 relative flex items-center">
+                  <div class="bg-[#0891b2] text-white text-[10px] font-bold h-5 rounded-full flex items-center justify-center shadow-sm" style="margin-left: 95%; width: 5%;">05–06</div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="lg:col-span-4 bg-slate-50 border border-slate-200 rounded-xl p-5 flex flex-col justify-between">
-            <div class="space-y-4">
-              <div class="pb-3 border-b border-slate-200">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-oag-blue block">
-                  FICHA DE MODELADO OO
-                </span>
-                <h4 class="font-bold text-base text-slate-900 mt-0.5">Elementos del Dominio</h4>
-              </div>
-              <div>
-                <ul id="p3-elements-list" class="text-xs text-slate-600 space-y-1.5 pl-4 list-disc">
-                  <!-- Se llena con JS -->
-                </ul>
+          <!-- Bloque Inferior: Leyenda de Colores, Flujo del Proyecto y Resultado Final -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch text-xs">
+            <div class="lg:col-span-3 bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+              <strong class="text-slate-900 block mb-2">Leyenda de colores (fases)</strong>
+              <div class="grid grid-cols-2 gap-1.5 text-[11px]">
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-[#1e73be]"></span>Investigación (F1)</div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-[#ec4899]"></span>Revisión (F5)</div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-[#5e5ce6]"></span>FODA/Req. (F2)</div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-[#16a34a]"></span>React/Web (F6)</div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-[#a855f7]"></span>Estructurado (F3)</div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-[#f97316]"></span>Pruebas (F7)</div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-[#7e22ce]"></span>UML/Diseño (F4)</div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-[#334155]"></span>Doc./Exp. (F8-9)</div>
               </div>
             </div>
+
+            <div class="lg:col-span-6 bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-center">
+              <strong class="text-slate-900 block mb-2.5">Flujo del proyecto</strong>
+              <div class="grid grid-cols-3 sm:grid-cols-9 gap-1 text-white text-center text-[10px] font-bold">
+                <div class="bg-[#1e73be] p-2 rounded">1. Invest.<br><span class="font-normal text-[9px]">2-5 nov</span></div>
+                <div class="bg-[#5e5ce6] p-2 rounded">2. FODA<br><span class="font-normal text-[9px]">6-8 nov</span></div>
+                <div class="bg-[#a855f7] p-2 rounded">3. DFD<br><span class="font-normal text-[9px]">9-15 nov</span></div>
+                <div class="bg-[#7e22ce] p-2 rounded">4. UML<br><span class="font-normal text-[9px]">16-20 nov</span></div>
+                <div class="bg-[#ec4899] p-2 rounded">5. Revis.<br><span class="font-normal text-[9px]">21-22 nov</span></div>
+                <div class="bg-[#16a34a] p-2 rounded">6. Web<br><span class="font-normal text-[9px]">23-29 nov</span></div>
+                <div class="bg-[#f97316] p-2 rounded">7. Prueb.<br><span class="font-normal text-[9px]">30-2 dic</span></div>
+                <div class="bg-[#334155] p-2 rounded">8. Doc.<br><span class="font-normal text-[9px]">3-4 dic</span></div>
+                <div class="bg-[#0891b2] p-2 rounded">9. Expo.<br><span class="font-normal text-[9px]">5-6 dic</span></div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-3 bg-blue-50 border border-blue-200 rounded-xl p-4 shadow-sm flex flex-col justify-center">
+              <strong class="text-[#0b5da6] block mb-1">Resultado final</strong>
+              <p class="text-[11px] text-slate-700 leading-relaxed">
+                Sistema informático de inventarios para Oruro Artes Gráficas SRL, con análisis, diseño, desarrollo, pruebas y presentación, completado el <strong>6 de diciembre de 2026</strong>.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Navegación Inferior entre las 9 Subpestañas del Capítulo I -->
+      <div class="mt-10 pt-6 border-t border-slate-200 flex items-center justify-between">
+        <button id="cap1-prev-btn" onclick="stepCap1(-1)" class="px-4 py-2 rounded-lg border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 transition">
+          ← Apartado anterior
+        </button>
+        <span id="cap1-step-indicator" class="text-xs font-semibold text-slate-400">Apartado 1 de 9</span>
+        <button id="cap1-next-btn" onclick="stepCap1(1)" class="px-4 py-2 rounded-lg bg-[#0b5da6] text-white text-xs font-bold hover:bg-[#094780] transition">
+          Siguiente apartado →
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 2: II. ANÁLISIS Y DISEÑO ESTRUCTURADO                         -->
+  <!-- ===================================================================== -->
+  <section id="tab-parte2" class="hidden flex-1 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-10">
+      
+      <div class="mb-8">
+        <p class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6] mb-1">CAPÍTULO II · PARADIGMA ESTRUCTURADO</p>
+        <h2 class="text-3xl font-extrabold text-slate-900">Análisis y diseño estructurado</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Menú Lateral Izquierdo de Etapas Estructuradas -->
+        <div class="lg:col-span-3 bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-1">
+          <div class="px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-slate-400 border-b border-slate-100 mb-1">
+            Contenido del Capítulo II
+          </div>
+          <button id="struct-btn-0" onclick="openStructStep(0)" class="struct-step-btn active">
+            <span class="w-6 h-6 rounded bg-blue-100 text-[#0b5da6] text-xs font-extrabold flex items-center justify-center">2.1</span>
+            <span>Fundamentación Estructurada</span>
+          </button>
+          <button id="struct-btn-1" onclick="openStructStep(1)" class="struct-step-btn">
+            <span class="w-6 h-6 rounded bg-blue-100 text-[#0b5da6] text-xs font-extrabold flex items-center justify-center">2.2</span>
+            <span>DFD Nivel 0 (Contexto)</span>
+          </button>
+          <button id="struct-btn-2" onclick="openStructStep(2)" class="struct-step-btn">
+            <span class="w-6 h-6 rounded bg-blue-100 text-[#0b5da6] text-xs font-extrabold flex items-center justify-center">2.3</span>
+            <span>DFD Nivel 1 (Procesos)</span>
+          </button>
+        </div>
+
+        <!-- Panel Derecho del Capítulo II -->
+        <div class="lg:col-span-9 bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+          
+          <!-- 2.1 Fundamentación del Paradigma Estructurado -->
+          <div id="struct-view-0" class="struct-subview space-y-4">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6]">Sección 2.1 del Informe</span>
+            <h3 class="text-2xl font-extrabold text-slate-900">2.1 Fundamentación del Paradigma Estructurado</h3>
+            <div class="text-slate-700 leading-relaxed text-justify space-y-4 bg-slate-50 p-6 rounded-xl border border-slate-200">
+              <p>
+                El <strong>Análisis Estructurado</strong> es un enfoque que permite estudiar y representar un sistema de información mediante la identificación de sus procesos, los datos que utiliza, los flujos de información y los almacenes donde se conserva dicha información. Su propósito es facilitar la comprensión del funcionamiento del sistema, descomponiéndose en procesos más pequeños y relacionados entre sí, desde una visión general hasta un nivel de detalle más específico.
+              </p>
+              <p>
+                En el proyecto de sistema de inventarios para <strong>Oruro Artes Gráficas SRL</strong>, este paradigma permitirá analizar las actividades relacionadas con el registro y control de materias primas, insumos y productos terminados. Asimismo, facilitará la representación de los movimientos de entrada y salida de materiales, la consulta de existencias y la identificación de necesidades de reposición, considerando la información necesaria para cada proceso.
+              </p>
+              <p>
+                Para desarrollar este análisis, se identificarán las entidades externas que intercambian información con el sistema, como los proveedores y el personal autorizado de la empresa (Encargado de Almacén, Área de Producción, Jefatura/Dirección y Área Contable y Financiera). Estas entidades proporcionarán datos al sistema o recibirán información generada por sus procesos.
+              </p>
+              <p>
+                La representación del sistema se realizará mediante diagramas de flujo de datos, comenzando con un <strong>diagrama de contexto (DFD Nivel 0)</strong> que mostrará los límites del sistema y su relación con las entidades externas. Posteriormente, se elaborará el <strong>diagrama de flujo de datos de Nivel 1</strong> para detallar los principales procesos, los flujos de información y los almacenes de datos necesarios para el funcionamiento propuesto.
+              </p>
+            </div>
+          </div>
+
+          <!-- 2.2 Diagrama de Contexto (DFD Nivel 0) -> imagen5.png -->
+          <div id="struct-view-1" class="struct-subview hidden space-y-4">
+            <div>
+              <span class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6]">Sección 2.2 · 2.2.1 DFD - Nivel 0</span>
+              <h3 class="text-2xl font-extrabold text-slate-900">2.2 Diagrama de Contexto (DFD Nivel 0)</h3>
+              <p class="text-sm text-slate-600 mt-1">Límites del Sistema, Entidades Externas y Flujos de Datos Nominales.</p>
+            </div>
+
+            <!-- =============================================================== -->
+            <!-- // ACA VA LA IMAGEN: imagen5.png (Diagrama de Contexto Nivel 0) -->
+            <!-- =============================================================== -->
+            <div class="diagram-image-frame">
+              <img src="Imagenes/Nivel0.jpeg" alt="2.2 Diagrama de Contexto (DFD Nivel 0) - Oruro Artes Gráficas SRL" />
+              <p class="text-xs text-slate-400 mt-2">Archivo de imagen vinculado: <code>Imagenes/Nivel0.jpeg</code></p>
+            </div>
+          </div>
+
+          <!-- 2.2.2 DFD Nivel 1 -> imagen4.png -->
+          <div id="struct-view-2" class="struct-subview hidden space-y-4">
+            <div>
+              <span class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6]">Sección 2.2.2 · DFD - Nivel 1</span>
+              <h3 class="text-2xl font-extrabold text-slate-900">2.2.2 Diagrama de Flujo de Datos — Nivel 1</h3>
+              <p class="text-sm text-slate-600 mt-1">Descomposición balanceada en 5 Procesos Principales (1.0 a 5.0) y 5 Almacenes de Datos (D1 a D5).</p>
+            </div>
+
+            <!-- =============================================================== -->
+            <!-- // ACA VA LA IMAGEN: imagen4.png (DFD Nivel 1)                  -->
+            <!-- =============================================================== -->
+            <div class="diagram-image-frame">
+              <img src="Imagenes/Nivel1.png" alt="2.2.2 Diagrama de Flujo de Datos Nivel 1 - Oruro Artes Gráficas SRL" />
+              <p class="text-xs text-slate-400 mt-2">Archivo de imagen vinculado: <code>Imagenes/Nivel1.png</code></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PESTAÑA 3: III. ANÁLISIS Y DISEÑO ORIENTADO A OBJETOS (UML)           -->
+  <!-- ===================================================================== -->
+  <section id="tab-parte3" class="hidden flex-1 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-10">
+      
+      <div class="mb-6">
+        <p class="text-xs font-extrabold uppercase tracking-wider text-[#e62e25] mb-1">CAPÍTULO III · MODELADO ORIENTADO A OBJETOS CON UML</p>
+        <h2 class="text-3xl font-extrabold text-slate-900">Análisis y diseño orientado a objetos (UML)</h2>
+      </div>
+
+      <!-- Selector Superior de Tarjetas del Capítulo III -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <button id="uml-btn-0" onclick="openUmlStep(0)" class="uml-card-btn active">
+          <span class="text-[11px] font-extrabold uppercase text-[#0b5da6] block">Sección 3.1</span>
+          <strong class="text-sm text-slate-900 block mt-0.5">Fundamentación POO / UML</strong>
+          <span class="text-xs text-slate-500">Marco conceptual del paradigma</span>
+        </button>
+        <button id="uml-btn-1" onclick="openUmlStep(1)" class="uml-card-btn">
+          <span class="text-[11px] font-extrabold uppercase text-[#e62e25] block">Sección 3.2 · Imagenes/CasosDeUso.png</span>
+          <strong class="text-sm text-slate-900 block mt-0.5">Modelo de Casos de Uso</strong>
+          <span class="text-xs text-slate-500">Subsistemas CU-01 a CU-12 y actores</span>
+        </button>
+        <button id="uml-btn-2" onclick="openUmlStep(2)" class="uml-card-btn">
+          <span class="text-[11px] font-extrabold uppercase text-emerald-700 block">Sección 3.3 · imagen3.png</span>
+          <strong class="text-sm text-slate-900 block mt-0.5">Diagrama de Clases UML</strong>
+          <span class="text-xs text-slate-500">Modelo estructural completo (11 clases)</span>
+        </button>
+      </div>
+
+      <!-- Contenedor Principal del Capítulo III -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+        
+        <!-- 3.1 Fundamentación del Paradigma Orientado a Objetos -->
+        <div id="uml-view-0" class="uml-subview space-y-4">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-[#0b5da6]">Sección 3.1 del Informe</span>
+          <h3 class="text-2xl font-extrabold text-slate-900">3.1 Fundamentación del Paradigma Orientado a Objetos</h3>
+          <div class="text-slate-700 leading-relaxed text-justify space-y-4 bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <p>
+              El <strong>paradigma orientado a objetos</strong> es un enfoque de análisis y diseño de sistemas que permite representar los elementos de un problema mediante objetos que poseen características y comportamientos. Para ello, utiliza conceptos como <strong>clases, atributos, métodos y relaciones</strong>, facilitando la organización de la información y la representación de los componentes que intervienen en el sistema.
+            </p>
+            <p>
+              En el proyecto del sistema de inventarios para <strong>Oruro Artes Gráficas SRL</strong>, este paradigma permitirá modelar los elementos relacionados con la gestión de materias primas, insumos, productos terminados, almacenes, proveedores y movimientos de inventario. Cada elemento se representará mediante clases de acuerdo con sus características y responsabilidades dentro del sistema.
+            </p>
+            <p>
+              Asimismo, el diseño orientado a objetos permitirá establecer relaciones entre las clases para representar cómo interactúan los componentes del sistema. La representación de estos elementos se realizará mediante el <strong>Lenguaje Unificado de Modelado (UML)</strong>, utilizando el diagrama de casos de uso y el diagrama de clases con sus atributos, métodos, asociaciones, herencia, agregación, composición y multiplicidades.
+            </p>
+          </div>
+        </div>
+
+        <!-- 3.2 Modelo de Casos de Uso -> imagen2.png -->
+        <div id="uml-view-1" class="uml-subview hidden space-y-4">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[#e62e25]">Sección 3.2 · Estándar OMG UML 2.5</span>
+            <h3 class="text-2xl font-extrabold text-slate-900">3.2 Modelo de Casos de Uso</h3>
+            <p class="text-sm text-slate-600 mt-1">Organizado por subsistemas funcionales con relaciones «include» y «extend».</p>
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- // ACA VA LA IMAGEN: imagen2.png (Diagrama de Casos de Uso)     -->
+          <!-- =============================================================== -->
+          <div class="diagram-image-frame">
+            <img src="Imagenes/CasosUsoUML.png" alt="3.2 Diagrama de Casos de Uso UML - Oruro Artes Gráficas SRL" />
+            <p class="text-xs text-slate-400 mt-2">Archivo de imagen vinculado: <code>Imagenes/CasosUsoUML.png</code></p>
+          </div>
+        </div>
+
+        <!-- 3.3 Diagrama de Clases -> imagen3.png -->
+        <div id="uml-view-2" class="uml-subview hidden space-y-4">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-700">Sección 3.3 · Modelo Estructural Completo</span>
+            <h3 class="text-2xl font-extrabold text-slate-900">3.3 Diagrama de Clases UML Reestructurado</h3>
+            <p class="text-sm text-slate-600 mt-1">Atributos tipados, métodos de negocio, herencia (generalización), composición (♦), agregación (◊) y multiplicidades.</p>
+          </div>
+
+          <!-- =============================================================== -->
+          <!-- // ACA VA LA IMAGEN: imagen3.png (Diagrama de Clases UML)       -->
+          <!-- =============================================================== -->
+          <div class="diagram-image-frame">
+            <img src="Imagenes/UML.png" alt="3.3 Diagrama de Clases UML Reestructurado - Oruro Artes Gráficas SRL" />
+            <p class="text-xs text-slate-400 mt-2">Archivo de imagen vinculado: <code>Imagenes/UML.png</code></p>
           </div>
         </div>
 
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main>
-
-  <footer class="bg-white border-t border-slate-200 py-5 mt-auto">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
-      <div><strong>Oruro Artes Gráficas S.R.L.</strong> · Sistema Informático de Control de Inventarios</div>
-      <div>UMSA · Carrera de Informática · Análisis y Diseño de Sistemas (2026)</div>
+  <!-- ===================================================================== -->
+  <!-- PIE DE PÁGINA                                                         -->
+  <!-- ===================================================================== -->
+  <footer class="bg-white border-t border-slate-200 py-5 px-6 text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div>
+        <strong class="text-slate-800">Oruro Artes Gráficas S.R.L.</strong> · Sistema Informático de Inventarios y Adquisiciones
+      </div>
+      <div>
+        UMSA · Carrera de Informática · Análisis y Diseño de Sistemas (Paralelo "A") · La Paz, Bolivia 2026
+      </div>
     </div>
   </footer>
 
-
-  <!-- =========================================================================
-       JAVASCRIPT: GESTIÓN DE PESTAÑAS PRINCIPALES Y SUBPESTAÑAS INDEPENDIENTES
-       ========================================================================= -->
+  <!-- ===================================================================== -->
+  <!-- SCRIPTS DE NAVEGACIÓN ENTRE PESTAÑAS Y SUBPESTAÑAS                    -->
+  <!-- ===================================================================== -->
   <script>
-    const mainTabs = ['portada', 'parte1', 'parte2', 'parte3'];
-    let currentPart1Step = 1;
+    let currentCap1Index = 1;
 
-    // 1. Cambia entre las 4 vistas principales (Portada, Parte I, Parte II, Parte III)
-    function showMainTab(tabName) {
-      mainTabs.forEach(name => {
-        const section = document.getElementById('tab-' + name);
-        const navBtn = document.getElementById('nav-' + name);
-
-        if (section) {
-          if (name === tabName) {
-            section.classList.remove('hidden');
-          } else {
-            section.classList.add('hidden');
-          }
-        }
-
-        if (navBtn) {
-          if (name === tabName) {
-            navBtn.classList.remove('nav-item-inactive');
-            navBtn.classList.add('nav-item-active');
-          } else {
-            navBtn.classList.remove('nav-item-active');
-            navBtn.classList.add('nav-item-inactive');
-          }
-        }
+    function switchMainTab(tabName) {
+      const tabs = ['portada', 'parte1', 'parte2', 'parte3'];
+      tabs.forEach(t => {
+        const section = document.getElementById('tab-' + t);
+        const navBtn = document.getElementById('nav-' + t);
+        if (section) section.classList.add('hidden');
+        if (navBtn) navBtn.classList.remove('active');
       });
 
+      const activeSection = document.getElementById('tab-' + tabName);
+      const activeNav = document.getElementById('nav-' + tabName);
+      if (activeSection) activeSection.classList.remove('hidden');
+      if (activeNav) activeNav.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 2. Abre cualquiera de los 9 puntos de la Parte I como una SUBPESTAÑA 100% INDEPENDIENTE
-    function openPart1Sub(stepNumber) {
-      showMainTab('parte1');
-      currentPart1Step = stepNumber;
+    function openCap1Subtab(index) {
+      switchMainTab('parte1');
+      currentCap1Index = index;
 
       for (let i = 1; i <= 9; i++) {
-        const subView = document.getElementById('p1-sub-' + i);
-        const subBtn = document.getElementById('p1-btn-' + i);
-
-        if (subView) {
-          if (i === stepNumber) {
-            subView.classList.remove('hidden');
-          } else {
-            subView.classList.add('hidden');
-          }
-        }
-
-        if (subBtn) {
-          if (i === stepNumber) {
-            subBtn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors bg-oag-blue text-white shadow-sm";
-          } else {
-            subBtn.className = "px-3 py-1.5 rounded-lg text-xs font-medium transition-colors text-slate-600 hover:bg-slate-100";
-          }
-        }
+        const subview = document.getElementById('cap1-sub-' + i);
+        const btn = document.getElementById('cap1-btn-' + i);
+        if (subview) subview.classList.add('hidden');
+        if (btn) btn.classList.remove('active');
       }
 
-      // Actualizar indicador "Apartado X de 9" y estado de botones Anterior/Siguiente
-      const indicator = document.getElementById('p1-step-indicator');
-      if (indicator) {
-        indicator.textContent = 'Apartado ' + stepNumber + ' de 9';
-      }
+      const targetView = document.getElementById('cap1-sub-' + index);
+      const targetBtn = document.getElementById('cap1-btn-' + index);
+      if (targetView) targetView.classList.remove('hidden');
+      if (targetBtn) targetBtn.classList.add('active');
 
-      const prevBtn = document.getElementById('p1-prev-btn');
-      const nextBtn = document.getElementById('p1-next-btn');
-      if (prevBtn) prevBtn.style.visibility = stepNumber === 1 ? 'hidden' : 'visible';
-      if (nextBtn) nextBtn.style.visibility = stepNumber === 9 ? 'hidden' : 'visible';
+      const indicator = document.getElementById('cap1-step-indicator');
+      if (indicator) indicator.textContent = 'Apartado ' + index + ' de 9';
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const prevBtn = document.getElementById('cap1-prev-btn');
+      const nextBtn = document.getElementById('cap1-next-btn');
+      if (prevBtn) prevBtn.disabled = (index === 1);
+      if (nextBtn) nextBtn.disabled = (index === 9);
     }
 
-    // Botones Anterior / Siguiente dentro de la Parte I
-    function changePart1Step(delta) {
-      const next = currentPart1Step + delta;
-      if (next >= 1 && next <= 9) {
-        openPart1Sub(next);
+    function stepCap1(delta) {
+      const nextIdx = currentCap1Index + delta;
+      if (nextIdx >= 1 && nextIdx <= 9) {
+        openCap1Subtab(nextIdx);
       }
     }
 
-    // 3. Datos y cambio de etapas en el Módulo II (Análisis Estructurado)
-    const part2Data = {
-      1: {
-        badge: 'ARTEFACTO: 2.1_REQUERIMIENTOS_INVENTARIO',
-        title: '2.1 Especificación de Requerimientos del Sistema',
-        desc: 'Delimitación de requerimientos funcionales y no funcionales para el control de los Almacenes 1 y 2, entradas, salidas, stock mínimo y cotizaciones.',
-       imageSrc: ''
-      },
-      2: {
-        badge: 'ARTEFACTO: 2.2_DIAGRAMA_CONTEXTO_NIVEL_0',
-        title: '2.2 Diagrama de Contexto (DFD Nivel 0)',
-        desc: 'Límites del sistema informático de inventarios, entidades externas (Proveedores, Encargado de Almacén, Jefatura) y flujos principales.',
-        imageSrc: './Imagenes/Nivel0.jpeg'
-      },
-      3: {
-        badge: 'ARTEFACTO: 2.3_DFD_POR_NIVELES',
-        title: '2.3 Diagramas de Flujo de Datos por Niveles (Nivel 1 y 2)',
-        desc: 'Descomposición de procesos: Gestión de materiales, registro de entradas/salidas, control de existencias/reposición y cotizaciones.',
-       imageSrc: './Imagenes/Nivel1.png'
-      },
-      4: {
-        badge: 'ARTEFACTO: 2.4_DICCIONARIO_DE_DATOS',
-        title: '2.4 Diccionario de Datos del Sistema',
-        desc: 'Definición formal de los flujos de datos, almacenes de datos y estructuras elementales del inventario.',
-        imageSrc: ''
-      },
-      5: {
-        badge: 'ARTEFACTO: 2.5_ESPECIFICACION_DE_PROCESOS',
-        title: '2.5 Especificación de Procesos (Miniespecificaciones)',
-        desc: 'Descripción de la lógica interna y reglas de negocio para cada proceso primitivo de los DFD.',
-        imageSrc: ''
-      },
-      6: {
-        badge: 'ARTEFACTO: 2.6_MODELO_ENTIDAD_RELACION_DER',
-        title: '2.6 Modelo de Datos Preliminar (Diagrama Entidad-Relación)',
-        desc: 'Estructura relacional de tablas para Materiales, Almacenes 1 y 2, Movimientos, Proveedores y Cotizaciones.',
-       imageSrc: ''
-      }
-    };
+    function switchPlanSubtab(subIdx) {
+      const v1 = document.getElementById('plan-subview-1');
+      const v2 = document.getElementById('plan-subview-2');
+      const b1 = document.getElementById('plan-subbtn-1');
+      const b2 = document.getElementById('plan-subbtn-2');
 
-    function showPart2Sub(index) {
-  for (let i = 1; i <= 6; i++) {
-    const btn = document.getElementById('p2-nav-' + i);
-    if (btn) {
-      if (i === index) {
-        btn.className = "w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-oag-blue text-white border-oag-blue shadow-sm";
+      if (subIdx === 1) {
+        v1.classList.remove('hidden');
+        v2.classList.add('hidden');
+        b1.className = 'px-4 py-2 rounded-lg text-xs font-bold bg-[#0b5da6] text-white shadow-sm transition';
+        b2.className = 'px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition';
       } else {
-        btn.className = "w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between bg-white text-slate-700 border-slate-200 hover:border-oag-blue";
-      }
-    }
-  }
-
-  const item = part2Data[index];
-  if (item) {
-    document.getElementById('p2-canvas-badge').textContent = item.badge;
-    document.getElementById('p2-title').textContent = item.title;
-    document.getElementById('p2-desc').textContent = item.desc;
-    
-    // Contenedor dinámico donde se muestra el contenido o la imagen
-    const area = document.getElementById('p2-content-area');
-    
-    if (item.imageSrc && item.imageSrc.trim() !== '') {
-      area.innerHTML = `<img src="${item.imageSrc}" alt="${item.title}" class="max-w-full h-auto rounded-lg shadow-sm mx-auto">`;
-    } else {
-      area.innerHTML = `
-        <div class="w-14 h-14 rounded-2xl bg-oag-blue/10 text-oag-blue flex items-center justify-center mb-3 mx-auto">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-        </div>
-        <p class="font-bold text-sm text-slate-700">Espacio reservado para ${item.title}</p>
-        <p class="text-xs text-slate-500 mt-1">Coloca tu imagen en la carpeta <strong>Imagenes</strong> y agrégala en <code>imageSrc</code>.</p>
-      `;
-    }
-  }
-}
-
-    // 4. Datos y cambio de tarjetas en el Módulo III (Orientado a Objetos - UML)
-    const part3Data = {
-      1: {
-        title: 'Diagrama de Casos de Uso del Sistema',
-        badge: 'Vista Funcional / Actores',
-        desc: 'Representación de las interacciones entre Encargado de Almacén, Jefatura y Proveedores.',
-        imageSrc: './Imagenes/CasosUsoUML.png', // <-- Tu imagen real
-        elements: [
-          'Actor: Encargado de Almacén (Almacenes 1 y 2)',
-          'Actor: Jefatura / Dirección',
-          'CU: Registrar entrada y salida de materiales',
-          'CU: Consultar existencias y alertas de reposición',
-          'CU: Registrar y comparar cotizaciones de proveedores'
-        ]
-      },
-      2: {
-        title: 'Diagrama de Clases UML (Modelo Conceptual)',
-        badge: 'Vista Estructural / Dominio',
-        desc: 'Clases del sistema con sus atributos, métodos y relaciones.',
-        imageSrc: './Imagenes/UML.png', // <-- Tu imagen real
-        elements: [
-          'Clase Material',
-          'Clase Almacen',
-          'Clase MovimientoInventario',
-          'Clase Proveedor',
-          'Clase Cotizacion'
-        ]
-      },
-      3: {
-        title: 'Diagramas de Secuencia UML',
-        badge: 'Vista de Interacción Temporal',
-        desc: 'Intercambio de mensajes entre objetos a lo largo del tiempo para el registro de movimientos.',
-        imageSrc: '', // Reemplaza con './Imagenes/Secuencia.png' cuando lo tengas
-        elements: [
-          'Línea de vida: InterfazAlmacen',
-          'Línea de vida: ControladorInventario',
-          'Línea de vida: Entidad Material / Stock'
-        ]
-      },
-      4: {
-        title: 'Diagramas de Actividades UML',
-        badge: 'Vista de Flujo de Trabajo',
-        desc: 'Flujo paso a paso de las actividades operativas desde la recepción hasta su registro.',
-        imageSrc: '', // Reemplaza con './Imagenes/Actividades.png' cuando lo tengas
-        elements: [
-          'Carril: Encargado de Almacén',
-          'Carril: Sistema de Inventarios',
-          'Carril: Jefatura (Aprobación)'
-        ]
-      },
-      5: {
-        title: 'Diagramas de Estados UML',
-        badge: 'Ciclo de Vida de Objetos',
-        desc: 'Transiciones de estado de las existencias de un material (Disponible, Stock Bajo, etc.).',
-        imageSrc: '', // Reemplaza con './Imagenes/Estados.png' cuando lo tengas
-        elements: [
-          'Estado: En Existencia Normal',
-          'Estado: Punto de Reposición Alcanzado',
-          'Estado: Cotización en Evaluación'
-        ]
-      },
-      6: {
-        title: 'Diagrama de Componentes y Despliegue UML',
-        badge: 'Vista de Arquitectura Física',
-        desc: 'Distribución de los componentes de software y su despliegue en la infraestructura.',
-        imageSrc: '', // Reemplaza con './Imagenes/Despliegue.png' cuando lo tengas
-        elements: [
-          'Nodo Servidor / Base de Datos',
-          'Nodo Cliente: Terminal de Almacén',
-          'Nodo Cliente: Jefatura'
-        ]
-      }
-    };
-  function showPart3Sub(index) {
-      for (let i = 1; i <= 6; i++) {
-        const card = document.getElementById('p3-card-' + i);
-        if (card) {
-          if (i === index) {
-            card.className = "p-3.5 rounded-xl border text-left transition-all bg-oag-dark text-white border-oag-dark shadow-sm";
-            card.querySelector('span:first-child').className = "text-[10px] font-bold uppercase text-oag-yellow block";
-          } else {
-            card.className = "p-3.5 rounded-xl border text-left transition-all bg-white text-slate-700 border-slate-200 hover:border-oag-blue";
-            card.querySelector('span:first-child').className = "text-[10px] font-bold uppercase text-slate-400 block";
-          }
-        }
-      }
-
-      const item = part3Data[index];
-      if (item) {
-        document.getElementById('p3-title').textContent = item.title;
-        document.getElementById('p3-badge').textContent = item.badge;
-        document.getElementById('p3-desc').textContent = item.desc;
-
-        // Renderizado seguro de imagen o aviso pendiente
-        const container = document.getElementById('p3-image-container');
-        if (item.imageSrc && item.imageSrc.trim() !== '') {
-          container.innerHTML = `<img src="${item.imageSrc}" alt="${item.title}" class="max-w-full h-auto rounded-lg shadow-sm mx-auto">`;
-        } else {
-          container.innerHTML = `
-            <div class="w-12 h-12 rounded-full bg-oag-red/10 text-oag-red flex items-center justify-center mb-3 mx-auto">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            </div>
-            <p class="font-bold text-sm text-slate-700">Imagen pendiente de inserción</p>
-            <p class="text-xs text-slate-500 mt-1">Coloca tu archivo en la carpeta <strong>Imagenes</strong> y actualiza su ruta en <code>imageSrc</code>.</p>
-          `;
-        }
-
-        const listEl = document.getElementById('p3-elements-list');
-        listEl.innerHTML = item.elements.map(el => `<li>${el}</li>`).join('');
+        v1.classList.add('hidden');
+        v2.classList.remove('hidden');
+        b2.className = 'px-4 py-2 rounded-lg text-xs font-bold bg-[#0b5da6] text-white shadow-sm transition';
+        b1.className = 'px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition';
       }
     }
 
-    function toggleMobileMenu() {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
+    function openStructStep(stepIdx) {
+      for (let i = 0; i <= 2; i++) {
+        const view = document.getElementById('struct-view-' + i);
+        const btn = document.getElementById('struct-btn-' + i);
+        if (view) view.classList.add('hidden');
+        if (btn) btn.classList.remove('active');
+      }
+      document.getElementById('struct-view-' + stepIdx).classList.remove('hidden');
+      document.getElementById('struct-btn-' + stepIdx).classList.add('active');
+    }
+
+    function openUmlStep(stepIdx) {
+      for (let i = 0; i <= 2; i++) {
+        const view = document.getElementById('uml-view-' + i);
+        const btn = document.getElementById('uml-btn-' + i);
+        if (view) view.classList.add('hidden');
+        if (btn) btn.classList.remove('active');
+      }
+      document.getElementById('uml-view-' + stepIdx).classList.remove('hidden');
+      document.getElementById('uml-btn-' + stepIdx).classList.add('active');
     }
   </script>
 </body>
